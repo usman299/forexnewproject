@@ -36,5 +36,7 @@
         </div>
     </div>
 </section>
+
+
 <!-- banner section end -->
 <?php /**PATH C:\xampp\htdocs\forexxx\main\resources\views/frontend/default/widgets/banner.blade.php ENDPATH**/ ?>

@@ -45,6 +45,7 @@
 
     <div class="sp_header_main">
         <div class="container">
+           
             <nav class="navbar navbar-expand-xl p-0 align-items-center">
                 <a class="site-logo site-title" href="{{ route('home') }}">
                     <img src="{{ Config::getFile('logo', Config::config()->logo, true) }}" alt="logo">

@@ -6,8 +6,9 @@
 {{--    <spline-viewer loading-anim-type="none" url="https://prod.spline.design/yy7XWeH2sIXh-P55/scene.splinecode"></spline-viewer>--}}
 
 {{--<spline-viewer url="https://prod.spline.design/LjA6dMVxgtap2bFJ/scene.splinecode"></spline-viewer>--}}
-
+{{--{{dd(Config::cssLib('frontend', 'lib/bootstrap.min.css'))}}--}}
     @foreach ($page->widgets as $section)
+
        <?= Section::render($section->sections) ?>
 
     @endforeach
@@ -87,16 +88,16 @@
 {{--    </div>--}}
 {{--</section>--}}
 
-<section class="adventure_section">
+<!-- <section class="adventure_section">
 	<div class="adventure_content">
     <div class="circle-container">
   <img src="{{ Config::getFile('partner', 'circle.png') }}" alt="image">
      </div>
-	<!-- <h3>Why trade with Doto</h3>
-	<p>We analyzed the collective experience of millions of traders to bring you a powerful, user-friendly platform.</p> -->
+	 <h3>Why trade with Doto</h3>
+	<p>We analyzed the collective experience of millions of traders to bring you a powerful, user-friendly platform.</p> 
       <a href="{{ url('our/license') }}">License</a>
     </div>
-</section>
+</section> -->
 
 
 {{--    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.0.17/build/spline-viewer.js"></script>--}}

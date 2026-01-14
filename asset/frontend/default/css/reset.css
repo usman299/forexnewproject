@@ -5,11 +5,22 @@ Reset css
 */
 @import url("https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&family=Roboto:wght@400;500&display=swap");
 
-:root {
+/* :root {
     --clr-main: #9c0ac1;
     --clr-secondary: #150A2A;
     --separator-bg: #150A2A;
     --default-bg: #1a0b36;
+} */
+:root {
+    --clr-main: #FFC300;      /* Primary / buttons / highlights */
+    --clr-secondary: #1C1C21; /* Headers / dark sections */
+    --separator-bg: #2A2A30;  /* Borders / dividers */
+    --default-bg: linear-gradient(
+        90deg,      /* elegant diagonal angle */
+        #121214 0%,  /* dark base */
+        #1C1C21 60%, /* subtle mid-dark */
+        #FFC300 95%  /* soft yellow highlight at edge */
+    );   /* Main page background */
 }
 
 
@@ -62,7 +73,7 @@ body {
     font-weight: 400;
     position: relative;
     line-height: 1.7;
-    background-color: var(--default-bg);
+    background: var(--default-bg);
     -webkit-transition: all 0.5s;
     -o-transition: all 0.5s;
     transition: all 0.5s;

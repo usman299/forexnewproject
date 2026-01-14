@@ -42,7 +42,7 @@
             <div class="row gy-4 justify-content-between">
                 <div class="col-lg-4 pe-xl-5">
                     <div class="sp_footer_item">
-                        <a href="<?php echo e(route('home')); ?>" class="site-logo"><img src="<?php echo e(Config::getFile('footer', $content->content->image_one)); ?>" alt="logo"></a>
+                        <a href="<?php echo e(route('home')); ?>" class="site-logo"><img src="<?php echo e(Config::getFile('logo', Config::config()->logo, true)); ?>" alt="logo"></a>
                         <p class="mt-4"><?php echo e($content->content->footer_short_details); ?></p>
                     </div>
                 </div>
@@ -89,7 +89,7 @@
 
                         </ul>
                         <a href="mailto:support@dotcoinverse.tech" style="margin-top: 10px;">
-                            <i class="fa fa-envelope"></i>  support@dotcoinverse.tech</a>
+                            <i class="fa fa-envelope"></i>  support@tradX24.tech</a>
                     </div>
                 </div>
             </div>

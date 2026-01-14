@@ -575,6 +575,35 @@ body {
     background-color: var(--clr-secondary);
 }
 
+/* .account-page .img-wrapper,
+.sp_contact_form,
+.sp_contact_item,
+.blog-widget,
+.sp_blog_item,
+.sp_testimonial_area::before,
+.sp_pricing_item,
+.sp_choose_item,
+.sp_page_banner::before,
+.sp_page_banner,
+.sp_copy_right_area,
+.sp_brand_slider .slick-list::after,
+.sp_brand_wrapper,
+.sp_header .sp_site_menu li .dropdown-menu,
+.sp_header.header-fixed .sp_header_main,
+.sp_site_card,
+.input-group .input-group-text,
+.form-select,
+.select,
+.sp_theme_btn2 {
+    background-color: #121214;
+    background-image: linear-gradient(
+        90deg,
+        #121214 0%,
+        #1C1C21 40%,
+        #FFC300 100%
+    );
+} */
+
 .pagination .page-item .page-link,
 .accordion-item .accordion-header .accordion-button:not(.collapsed) {
     background-color: #fff;
@@ -1321,7 +1350,12 @@ Header css
     top: 0;
     left: 0;
     z-index: 2;
-    background: #1a0b36;
+    background-image: linear-gradient(
+        90deg,
+        #121214 0%,
+        #1C1C21 40%,
+        #FFC300 100%
+    );
 }
 
 /*.sp_header_main {*/

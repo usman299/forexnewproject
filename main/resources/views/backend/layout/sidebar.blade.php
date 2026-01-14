@@ -154,59 +154,59 @@
                 </li>
 {{--            @endif--}}
 
-{{--            @if (auth()->guard('admin')->user()->can('manage-theme'))--}}
-{{--                <li><a href="{{ route('admin.manage.theme') }}" aria-expanded="false"><i--}}
-{{--                            data-feather="layers"></i><span class="nav-text">{{ __('Manage Theme') }}</span></a>--}}
-{{--                </li>--}}
-{{--            @endif--}}
+            @if (auth()->guard('admin')->user()->can('manage-theme'))
+                <li><a href="{{ route('admin.manage.theme') }}" aria-expanded="false"><i
+                            data-feather="layers"></i><span class="nav-text">{{ __('Manage Theme') }}</span></a>
+                </li>
+            @endif
 
 
-{{--            @if (auth()->guard('admin')->user()->can('manage-frontend') ||--}}
-{{--                    auth()->guard('admin')->user()->can('manage-language'))--}}
-{{--                <li class="nav-label">{{ __('Theme Settings') }}</li>--}}
-{{--            @endif--}}
+            @if (auth()->guard('admin')->user()->can('manage-frontend') ||
+                    auth()->guard('admin')->user()->can('manage-language'))
+                <li class="nav-label">{{ __('Theme Settings') }}</li>
+            @endif
 
-{{--            @if (auth()->guard('admin')->user()->can('manage-frontend'))--}}
-{{--                <li><a href="{{ route('admin.frontend.pages') }}" aria-expanded="false"><i--}}
-{{--                            data-feather="book-open"></i><span class="nav-text">{{ __('Manage Pages') }}</span></a>--}}
-{{--                </li>--}}
-
-{{--          --}}
+            @if (auth()->guard('admin')->user()->can('manage-frontend'))
+                <li><a href="{{ route('admin.frontend.pages') }}" aria-expanded="false"><i
+                            data-feather="book-open"></i><span class="nav-text">{{ __('Manage Pages') }}</span></a>
+                </li>
 
 
-{{--                <li><a href="{{ route('admin.frontend.section.manage', 'banner') }}" aria-expanded="false"><i--}}
-{{--                            data-feather="layout"></i><span class="nav-text">{{ __('Manage Frontend') }}</span></a>--}}
-{{--                </li>--}}
-{{--            @endif--}}
 
-{{--            @if (auth()->guard('admin')->user()->can('manage-language'))--}}
-{{--                <li><a href="{{ route('admin.language.index') }}" aria-expanded="false"><i--}}
-{{--                            data-feather="globe"></i><span class="nav-text">{{ __('Manage Language') }}</span></a>--}}
-{{--                </li>--}}
-{{--            @endif--}}
 
-{{--            @if (auth()->guard('admin')->user()->can('manage-role') ||--}}
-{{--                    auth()->guard('admin')->user()->can('manage-admin'))--}}
-{{--                <li class="nav-label">{{ __('Administration') }}</li>--}}
-{{--            @endif--}}
+                <li><a href="{{ route('admin.frontend.section.manage', 'banner') }}" aria-expanded="false"><i
+                            data-feather="layout"></i><span class="nav-text">{{ __('Manage Frontend') }}</span></a>
+                </li>
+            @endif
 
-{{--            @if (auth()->guard('admin')->user()->can('manage-role'))--}}
-{{--                <li>--}}
-{{--                    <a href="{{ route('admin.roles.index') }}" aria-expanded="false">--}}
-{{--                        <i data-feather="users"></i>--}}
-{{--                        <span class="nav-text">{{ __('Manage Roles') }}</span>--}}
-{{--                    </a>--}}
-{{--                </li>--}}
-{{--            @endif--}}
+            @if (auth()->guard('admin')->user()->can('manage-language'))
+                <li><a href="{{ route('admin.language.index') }}" aria-expanded="false"><i
+                            data-feather="globe"></i><span class="nav-text">{{ __('Manage Language') }}</span></a>
+                </li>
+            @endif
 
-{{--            @if (auth()->guard('admin')->user()->can('manage-admin'))--}}
-{{--                <li>--}}
-{{--                    <a href="{{ route('admin.admins.index') }}" aria-expanded="false">--}}
-{{--                        <i data-feather="user-check"></i>--}}
-{{--                        <span class="nav-text">{{ __('Manage Admins') }}</span>--}}
-{{--                    </a>--}}
-{{--                </li>--}}
-{{--            @endif--}}
+            @if (auth()->guard('admin')->user()->can('manage-role') ||
+                    auth()->guard('admin')->user()->can('manage-admin'))
+                <li class="nav-label">{{ __('Administration') }}</li>
+            @endif
+
+            @if (auth()->guard('admin')->user()->can('manage-role'))
+                <li>
+                    <a href="{{ route('admin.roles.index') }}" aria-expanded="false">
+                        <i data-feather="users"></i>
+                        <span class="nav-text">{{ __('Manage Roles') }}</span>
+                    </a>
+                </li>
+            @endif
+
+            @if (auth()->guard('admin')->user()->can('manage-admin'))
+                <li>
+                    <a href="{{ route('admin.admins.index') }}" aria-expanded="false">
+                        <i data-feather="user-check"></i>
+                        <span class="nav-text">{{ __('Manage Admins') }}</span>
+                    </a>
+                </li>
+            @endif
 
 
 

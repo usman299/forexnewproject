@@ -439,7 +439,14 @@ General css
 .sp_separator_bg {
   background-color: #150A2A;
 }
-
+/* .sp_separator_bg {
+    background: linear-gradient(
+        90deg,
+        #121214 0%,
+        #1C1C21 40%,
+        #FFC300 100%
+    );
+} */
 .fs-lg {
   font-size: 1.125rem !important;
 }

@@ -155,59 +155,59 @@
                 </li>
 
 
+            <?php if(auth()->guard('admin')->user()->can('manage-theme')): ?>
+                <li><a href="<?php echo e(route('admin.manage.theme')); ?>" aria-expanded="false"><i
+                            data-feather="layers"></i><span class="nav-text"><?php echo e(__('Manage Theme')); ?></span></a>
+                </li>
+            <?php endif; ?>
+
+
+            <?php if(auth()->guard('admin')->user()->can('manage-frontend') ||
+                    auth()->guard('admin')->user()->can('manage-language')): ?>
+                <li class="nav-label"><?php echo e(__('Theme Settings')); ?></li>
+            <?php endif; ?>
+
+            <?php if(auth()->guard('admin')->user()->can('manage-frontend')): ?>
+                <li><a href="<?php echo e(route('admin.frontend.pages')); ?>" aria-expanded="false"><i
+                            data-feather="book-open"></i><span class="nav-text"><?php echo e(__('Manage Pages')); ?></span></a>
+                </li>
 
 
 
 
+                <li><a href="<?php echo e(route('admin.frontend.section.manage', 'banner')); ?>" aria-expanded="false"><i
+                            data-feather="layout"></i><span class="nav-text"><?php echo e(__('Manage Frontend')); ?></span></a>
+                </li>
+            <?php endif; ?>
 
+            <?php if(auth()->guard('admin')->user()->can('manage-language')): ?>
+                <li><a href="<?php echo e(route('admin.language.index')); ?>" aria-expanded="false"><i
+                            data-feather="globe"></i><span class="nav-text"><?php echo e(__('Manage Language')); ?></span></a>
+                </li>
+            <?php endif; ?>
 
+            <?php if(auth()->guard('admin')->user()->can('manage-role') ||
+                    auth()->guard('admin')->user()->can('manage-admin')): ?>
+                <li class="nav-label"><?php echo e(__('Administration')); ?></li>
+            <?php endif; ?>
 
+            <?php if(auth()->guard('admin')->user()->can('manage-role')): ?>
+                <li>
+                    <a href="<?php echo e(route('admin.roles.index')); ?>" aria-expanded="false">
+                        <i data-feather="users"></i>
+                        <span class="nav-text"><?php echo e(__('Manage Roles')); ?></span>
+                    </a>
+                </li>
+            <?php endif; ?>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            <?php if(auth()->guard('admin')->user()->can('manage-admin')): ?>
+                <li>
+                    <a href="<?php echo e(route('admin.admins.index')); ?>" aria-expanded="false">
+                        <i data-feather="user-check"></i>
+                        <span class="nav-text"><?php echo e(__('Manage Admins')); ?></span>
+                    </a>
+                </li>
+            <?php endif; ?>
 
 
 
