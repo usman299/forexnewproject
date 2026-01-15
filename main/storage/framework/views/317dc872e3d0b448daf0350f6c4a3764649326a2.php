@@ -112,7 +112,10 @@
                 <?php echo $__env->yieldContent('content'); ?>
             </div>
             <div class="copy-right-text">
-                <p><?php echo e(__(Config::config()->copyright)); ?></p>
+                <p>
+                    Copyright 2026 TradX24 . All Rights Reserved
+                    <!-- <?php echo e(__(Config::config()->copyright)); ?> -->
+                </p>
             </div>
         </div>
         <div class="img-wrapper" style="background-image: url(<?php echo e(Config::getFile('logo', '641bf4c6b2e011679553734.png', true)); ?>)">

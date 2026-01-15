@@ -112,7 +112,10 @@
                 @yield('content')
             </div>
             <div class="copy-right-text">
-                <p>{{__(Config::config()->copyright)}}</p>
+                <p>
+                    Copyright 2026 TradX24 . All Rights Reserved
+                    <!-- {{__(Config::config()->copyright)}} -->
+                </p>
             </div>
         </div>
         <div class="img-wrapper" style="background-image: url({{ Config::getFile('logo', '641bf4c6b2e011679553734.png', true) }})">

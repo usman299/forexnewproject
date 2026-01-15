@@ -110,8 +110,8 @@
                     class="fas fa-dollar-sign"></i> <?php echo e(__('Level Income Reward')); ?></a></li>
 
 
-        <li class="#"><a href="<?php echo e(Config::getFile('gateways', 'Dotcoinverse.pdf', true)); ?>" class="pdf-link"><i
-                    class="fas fa-file-pdf"></i> <?php echo e(__('Dotcoinverse Pdf')); ?></a></li>
+        <!-- <li class="#"><a href="<?php echo e(Config::getFile('gateways', 'Dotcoinverse.pdf', true)); ?>" class="pdf-link"><i
+                    class="fas fa-file-pdf"></i> <?php echo e(__('Dotcoinverse Pdf')); ?></a></li> -->
         <li class="<?php echo e(Config::singleMenu('user.profile')); ?>"><a href="<?php echo e(route('user.profile')); ?>"><i
                     class="fas fa-user-plus"></i> <?php echo e(__('Profile Settings')); ?></a></li>
         <li class="<?php echo e(Config::singleMenu('user.change.password')); ?>"><a href="<?php echo e(route('user.change.password')); ?>"><i

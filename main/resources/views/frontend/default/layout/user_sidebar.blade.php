@@ -110,8 +110,8 @@
                     class="fas fa-dollar-sign"></i> {{ __('Level Income Reward') }}</a></li>
 {{--        <li class="{{ Config::singleMenu('user.roadmap') }}"><a href="{{ route('user.roadmap') }}"><i--}}
 {{--                    class="fas fa-tree"></i> {{ __('Roadmap') }}</a></li>--}}
-        <li class="#"><a href="{{ Config::getFile('gateways', 'Dotcoinverse.pdf', true) }}" class="pdf-link"><i
-                    class="fas fa-file-pdf"></i> {{ __('Dotcoinverse Pdf') }}</a></li>
+        <!-- <li class="#"><a href="{{ Config::getFile('gateways', 'Dotcoinverse.pdf', true) }}" class="pdf-link"><i
+                    class="fas fa-file-pdf"></i> {{ __('Dotcoinverse Pdf') }}</a></li> -->
         <li class="{{ Config::singleMenu('user.profile') }}"><a href="{{ route('user.profile') }}"><i
                     class="fas fa-user-plus"></i> {{ __('Profile Settings') }}</a></li>
         <li class="{{ Config::singleMenu('user.change.password') }}"><a href="{{ route('user.change.password') }}"><i

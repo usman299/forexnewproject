@@ -99,7 +99,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <p><?php echo e(Config::config()->copyright); ?></p>
+                    <p>
+                        Copyright 2026 TradX24 . All Rights Reserved
+                        <!-- <?php echo e(Config::config()->copyright); ?> -->
+                    </p>
                 </div>
             </div>
         </div>

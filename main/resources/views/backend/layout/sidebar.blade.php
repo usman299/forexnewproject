@@ -161,7 +161,7 @@
             @endif
 
 
-            @if (auth()->guard('admin')->user()->can('manage-frontend') ||
+            <!-- @if (auth()->guard('admin')->user()->can('manage-frontend') ||
                     auth()->guard('admin')->user()->can('manage-language'))
                 <li class="nav-label">{{ __('Theme Settings') }}</li>
             @endif
@@ -208,7 +208,7 @@
                 </li>
             @endif
 
-
+ -->
 
             <li class="nav-label">{{ __('Others') }}</li>
 {{--            @if (auth()->guard('admin')->user()->can('manage-logs'))--}}

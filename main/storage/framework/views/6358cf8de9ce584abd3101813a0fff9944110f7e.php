@@ -162,7 +162,7 @@
             <?php endif; ?>
 
 
-            <?php if(auth()->guard('admin')->user()->can('manage-frontend') ||
+            <!-- <?php if(auth()->guard('admin')->user()->can('manage-frontend') ||
                     auth()->guard('admin')->user()->can('manage-language')): ?>
                 <li class="nav-label"><?php echo e(__('Theme Settings')); ?></li>
             <?php endif; ?>
@@ -209,7 +209,7 @@
                 </li>
             <?php endif; ?>
 
-
+ -->
 
             <li class="nav-label"><?php echo e(__('Others')); ?></li>
 
