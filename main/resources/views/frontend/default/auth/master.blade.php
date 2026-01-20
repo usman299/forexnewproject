@@ -118,7 +118,8 @@
                 </p>
             </div>
         </div>
-        <div class="img-wrapper" style="background-image: url({{ Config::getFile('logo', '641bf4c6b2e011679553734.png', true) }})">
+        <!-- style="background-image: url({{ Config::getFile('logo', '641bf4c6b2e011679553734.png', true) }})" -->
+        <div class="img-wrapper" >
             {{--            <video src="{{ Config::getFile('auth', 'submki.webm') }}" ></video>--}}
 {{--            <video  playsinline autoplay loop muted >--}}
 {{--            <source src="{{ Config::getFile('banner', 'login.mp4') }}" type="video/mp4">--}}
@@ -126,7 +127,7 @@
             <div id="particles-js"></div>
 
 {{--            <img style="width: 100%;max-width: 720px;" src="{{ Config::getFile('benefits', '641bfc49e3fde1679555657.png') }}" class="account-line-bg" alt="image">--}}
-{{--            <img src="{{ Config::getFile('auth', $content->content->image_one) }}" class="account-line-bg" alt="image">--}}
+            <img src="{{ Config::getFile('auth', $content->content->image_one) }}" class="account-line-bg" alt="image">
         </div>
     </div>
 

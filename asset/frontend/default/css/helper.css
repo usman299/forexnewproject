@@ -85,7 +85,7 @@ Background css
 .sp_bg_base,
 .sp_bg_main,
 .sp_site_bg {
-  background-color: #9c0ac1 !important;
+  background-color: #FFC300 !important;
 }
 
 .gr-bg-1 {
@@ -437,7 +437,13 @@ General css
 }
 
 .sp_separator_bg {
-  background-color: #150A2A;
+  background: linear-gradient(
+    90deg,
+    #121214 0%,
+    #1C1C21 35%,
+    #3BB143 70%,
+    #FFC300 100%
+);
 }
 /* .sp_separator_bg {
     background: linear-gradient(
@@ -936,7 +942,8 @@ label {
 }
 
 .input-group .input-group-text {
-  border-color: #f100ff;
+
+  border-color: #FFC300;
 }
 .sp_site_radio {
   position: relative;

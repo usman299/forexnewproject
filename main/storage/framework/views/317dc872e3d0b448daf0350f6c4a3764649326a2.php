@@ -118,7 +118,8 @@
                 </p>
             </div>
         </div>
-        <div class="img-wrapper" style="background-image: url(<?php echo e(Config::getFile('logo', '641bf4c6b2e011679553734.png', true)); ?>)">
+        <!-- style="background-image: url(<?php echo e(Config::getFile('logo', '641bf4c6b2e011679553734.png', true)); ?>)" -->
+        <div class="img-wrapper" >
             
 
 
@@ -126,7 +127,7 @@
             <div id="particles-js"></div>
 
 
-
+            <img src="<?php echo e(Config::getFile('auth', $content->content->image_one)); ?>" class="account-line-bg" alt="image">
         </div>
     </div>
 

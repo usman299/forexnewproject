@@ -184,7 +184,7 @@ class ForgotPasswordController extends Controller
 
         $user->save();
 
-        return redirect()->route('user.dashboard')->with('success', 'Welcome to Dotcoiverse! 🚀');
+        return redirect()->route('user.dashboard')->with('success', 'Welcome to Tradx24! 🚀');
     }
 
 

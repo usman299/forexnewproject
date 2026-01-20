@@ -37,11 +37,11 @@
                         <p class="text-center mb-3"><?php echo e(__('Minimum deposit amount 10 USDT')); ?>
 
                         </p>
-                        <button type="button" id="install" onclick="initiateTransfer()" class="btn sp_theme_btn w-100"  ><?php echo e(__('Deposit Money via Metamask')); ?></button>
+                        <!-- <button type="button" id="install" onclick="initiateTransfer()" class="btn sp_theme_btn w-100"  ><?php echo e(__('Deposit Money via Metamask')); ?></button> -->
 
+                                               <button type="button" id="myButtonvv"  class="btn sp_theme_btn w-100"  ><?php echo e(__('Deposit Money via Metamask')); ?></button>
 
-
-                        <a  onclick="message()" id="notInstall"  class="btn sp_theme_btn w-100"  ><?php echo e(__('Deposit Money via Metamask')); ?></a>
+                        <!-- <a  onclick="message()" id="notInstall"  class="btn sp_theme_btn w-100"  ><?php echo e(__('Deposit Money via Metamask')); ?></a> -->
 
                         <p style="margin-top: 10px" class="text-center mb-3"><?php echo e(__('Go to your metamask wallet, open your account into browser connect it and deposit amount through USDT (bep20) by using BNB Network')); ?>
 
@@ -55,17 +55,17 @@
     <script src="https://cdn.jsdelivr.net/npm/web3@1.3.6/dist/web3.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
-        // $(document).ready(function(){
-        //     $('#myButtonvv').click(function(){
-        //         Swal.fire({
-        //             icon: "info",
-        //             title: "Deposit through metamask only",
-        //             text:"Deposit will be started at Sunday UTC time 12:00 PM",
-        //             showConfirmButton: true,
-        //         });
-        //     });
-        // });
-        // if (navigator.userAgent.indexOf('Chrome') !== -1 && typeof window.ethereum !== 'undefined') {
+        $(document).ready(function(){
+            $('#myButtonvv').click(function(){
+                Swal.fire({
+                    icon: "info",
+                    title: "Deposit through metamask only",
+                    text:"Deposit will be started at Sunday UTC time 12:00 PM",
+                    showConfirmButton: true,
+                });
+            });
+        });
+        if (navigator.userAgent.indexOf('Chrome') !== -1 && typeof window.ethereum !== 'undefined') {
 
         var isChrome = navigator.userAgent.indexOf('Chrome') !== -1;
         var isCheck = typeof window.ethereum !== 'undefined';
