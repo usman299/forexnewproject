@@ -1,6 +1,125 @@
 @extends(Config::theme() . 'layout.auth')
 @section('content')
+<style>
+ /* DASHBOARD CARD CONTAINER */
+/* Dashboard background */
+/* PAGE BACKGROUND GRADIENT */
+body, .dashboard-section {
+    background: linear-gradient(135deg, #3bb143, #121214);
+    min-height: 100vh;
+    padding: 20px;
+}
 
+/* CARD CONTAINER */
+.dashboard-cards { margin-top: 10px; perspective: 1000px; }
+
+/* ==============================
+   CARD STYLE
+   ============================== */
+.neo-card {
+    /* background gradient instead of solid color */
+    background: linear-gradient(135deg, #3bb143, #121214);
+    border-radius: 20px;
+    padding: 28px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+    cursor: pointer;
+    color: #fff;
+    animation: fadeUp 0.8s ease forwards;
+    transform-style: preserve-3d;
+}
+
+/* CARD GRADIENT SHINE (Yellow/Black) */
+.neo-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, #FFC30033 0%, #00000033 50%, #FFC30033 100%);
+    opacity: 0.2;
+    pointer-events: none;
+    animation: shine 6s infinite linear;
+    border-radius: 20px;
+}
+
+/* ICON */
+.neo-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 16px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #FFC300, #000000);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #121214;
+    font-size: 30px;
+    box-shadow: 0 0 25px rgba(255,195,0,0.6);
+    animation: pulse 3s infinite;
+}
+
+/* AMOUNT */
+.neo-amount {
+    font-size: 26px;
+    font-weight: 800;
+    color: #FFC300;
+    margin-bottom: 6px;
+    animation: pop 0.6s ease;
+}
+
+/* TITLE */
+.neo-title {
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    color: #fff;
+}
+
+/* ==============================
+   HOVER 3D EFFECT
+   ============================== */
+.neo-card:hover {
+    transform: rotateY(10deg) rotateX(10deg) scale(1.05);
+    box-shadow: 0 35px 60px rgba(255,195,0,0.6);
+    background: linear-gradient(135deg, #3bb143, #121214, #FFC30033);
+}
+
+/* ==============================
+   ANIMATIONS
+   ============================== */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255,195,0,0.6); }
+    70% { box-shadow: 0 0 30px 10px rgba(0,0,0,0.4); }
+    100% { box-shadow: 0 0 0 0 rgba(255,195,0,0.6); }
+}
+
+@keyframes pop {
+    0% { transform: scale(0.85); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes shine {
+    0% { transform: translateX(-100%); }
+    50% { transform: translateX(100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* RESPONSIVE */
+@media (max-width: 575px) {
+    .neo-card {
+        padding: 22px 14px;
+    }
+    .neo-icon { width: 56px; height: 56px; font-size: 24px; }
+    .neo-amount { font-size: 20px; }
+}
+
+</style>
 @php
     $plan_expired_at = now();
 @endphp
@@ -15,7 +134,7 @@
     @endphp
 @endif
 {{--d-custom-left--}}
-    <div class="row g-sm-4 g-3">
+    <!-- <div class="row g-sm-4 g-3">
         <div class="col-xxl-12 col-xl-12 ">
             <div class="d-left-wrapper">
                 <div class="d-left-countdown">
@@ -169,7 +288,87 @@
                             </form>
                         </div>
                     </div>
-                </div>
+                </div> -->
+
+<div class="row g-4 dashboard-cards">
+
+    <div class="col-xxl-4 col-xl-6 col-lg-4 col-6">
+        <div class="neo-card neo-card-1">
+            <div class="neo-icon">
+                <i class="las la-credit-card"></i>
+            </div>
+             <img class="card-wave" src="https://tradx24.tech/asset/images/logo/wave.svg" alt="image">
+            <h4 class="neo-amount">
+                @if($tra)
+                    {{ Config::formatter($staking_amount+5) }}
+                @else
+                    {{ Config::formatter($staking_amount) }}
+                @endif
+            </h4>
+            <p class="neo-title">Staking Amount</p>
+        </div>
+       
+    </div>
+
+    <div class="col-xxl-4 col-xl-6 col-lg-4 col-6">
+        <div class="neo-card neo-card-2">
+            <div class="neo-icon">
+                <i class="las la-ticket-alt"></i>
+            </div>
+            <img class="card-wave" src="https://tradx24.tech/asset/images/logo/wave.svg" alt="image">
+            <h4 class="neo-amount">{{ Config::formatter($staking_reward) }}</h4>
+            <p class="neo-title">Staking Reward</p>
+        </div>
+    </div>
+
+    <div class="col-xxl-4 col-xl-6 col-lg-4 col-6">
+        <div class="neo-card neo-card-3">
+            <div class="neo-icon">
+                <i class="las la-hand-holding-usd"></i>
+            </div>
+            <img class="card-wave" src="https://tradx24.tech/asset/images/logo/wave.svg" alt="image">
+            <h4 class="neo-amount">{{ $myTeam }}</h4>
+            <p class="neo-title">My Team</p>
+        </div>
+    </div>
+
+    <div class="col-xxl-4 col-xl-6 col-lg-4 col-6">
+        <div class="neo-card neo-card-4">
+            <div class="neo-icon">
+                <i class="las la-chart-bar"></i>
+            </div>
+            <img class="card-wave" src="https://tradx24.tech/asset/images/logo/wave.svg" alt="image">
+            <h4 class="neo-amount">{{ Config::formatter($directReward) }}</h4>
+            <p class="neo-title">Direct Reward</p>
+        </div>
+    </div>
+
+    <div class="col-xxl-4 col-xl-6 col-lg-4 col-6">
+        <div class="neo-card neo-card-5">
+            <div class="neo-icon">
+                <i class="las la-credit-card"></i>
+            </div>
+            <img class="card-wave" src="https://tradx24.tech/asset/images/logo/wave.svg" alt="image">
+            <h4 class="neo-amount">{{ Config::formatter($teamReward) }}</h4>
+            <p class="neo-title">Team Reward</p>
+        </div>
+    </div>
+
+    <div class="col-xxl-4 col-xl-6 col-lg-4 col-6">
+        <div class="neo-card neo-card-6">
+            <div class="neo-icon">
+                <i class="las la-ticket-alt"></i>
+            </div>
+            <img class="card-wave" src="https://tradx24.tech/asset/images/logo/wave.svg" alt="image">
+            <h4 class="neo-amount">{{ Config::formatter($totalReward) }}</h4>
+            <p class="neo-title">Total Reward</p>
+        </div>
+    </div>
+
+</div>
+
+
+
 
 
 

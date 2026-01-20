@@ -4529,7 +4529,7 @@ i.fab.fa-whatsapp {
     bottom: 0;
     left: 0;
     width: 100%;
-    background: linear-gradient(270deg, rgba(26,11,54,1) 36%, rgba(156,10,193,1) 200%, rgba(102,16,242,1) 78%);
+    background: linear-gradient(90deg, #121214 0%, #1C1C21 40%, #FFC300 100%);
     box-shadow: 0 -10px 5px rgba(0, 0, 0, 0.06);
     z-index: 9999;
 }
