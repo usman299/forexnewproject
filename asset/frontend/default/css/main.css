@@ -1407,7 +1407,7 @@ Header css
     height: 50px;
     border-radius: 100%;
     border: 1px solid black;
-    background: rgba(156,10,193,1);
+    background: #FFC300;
     opacity: 0.8;
     transition: all 200ms ease-out;
     position: fixed;
@@ -4197,6 +4197,7 @@ i.fab.fa-whatsapp {
     .d-card-content {
         margin-top: 0.9375rem;
     }
+    
 }
 
 .d-card .d-card-amount {
@@ -4372,7 +4373,11 @@ i.fab.fa-whatsapp {
         height: 140px;
     }
 }
-
+@media (max-width: 768px) {
+    img.card-wave {
+        max-width: 70px !important;
+    }
+}
 .payment-box .payment-box-content {
     padding: 1.25rem;
 }

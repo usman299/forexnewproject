@@ -52,9 +52,21 @@ class DepositController extends Controller
             '0x42DE50Accdd417c93A328495848c817FA72E4321',
         ];
         $color = [156, 10, 193];
-        $data['randomAddress'] = $addresses[array_rand($addresses)];
-        $data['qrCode'] = QrCode::size(200)->color($color[0], $color[1], $color[2])->generate($data['randomAddress']);
-        return view(Helper::theme().'user.deposit.create',compact('data'));
+         $data['randomAddress'] = $addresses[array_rand($addresses)];
+        $data['bnbAddress']  = '0x7983f97fcc52d31530f755220194060eee0e5cee';
+        $data['tronAddress'] = 'TM5q9uK67QAvn6iW8YdG52WnBL3g38HVX8';
+        // BNB QR
+                            $data['bnbQr'] = QrCode::size(200)
+                ->color(255, 195, 0)   // #FFC300
+                ->backgroundColor(28, 28, 33) // dark bg optional
+                ->generate($data['bnbAddress']);
+
+            $data['tronQr'] = QrCode::size(200)
+                ->color(59, 177, 67)  // #3BB143 (green)
+                ->backgroundColor(28, 28, 33)
+                ->generate($data['tronAddress']);
+         $data['qrCode'] = QrCode::size(200)->color($color[0], $color[1], $color[2])->generate($data['randomAddress']);
+        return view(Helper::theme().'user.deposit.create2',compact('data'));
     }
     public function depositStore(Request $request)
     {

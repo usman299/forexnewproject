@@ -297,7 +297,7 @@ body, .dashboard-section {
             <div class="neo-icon">
                 <i class="las la-credit-card"></i>
             </div>
-             <img class="card-wave" src="https://tradx24.tech/asset/images/logo/wave.svg" alt="image">
+             <img class="card-wave" src="<?php echo e(Config::getFile('logo', 'wave.png', true)); ?>" alt="image">
             <h4 class="neo-amount">
                 <?php if($tra): ?>
                     <?php echo e(Config::formatter($staking_amount+5)); ?>
@@ -317,7 +317,7 @@ body, .dashboard-section {
             <div class="neo-icon">
                 <i class="las la-ticket-alt"></i>
             </div>
-            <img class="card-wave" src="https://tradx24.tech/asset/images/logo/wave.svg" alt="image">
+            <img class="card-wave" src="<?php echo e(Config::getFile('logo', 'wave.png', true)); ?>" alt="image">
             <h4 class="neo-amount"><?php echo e(Config::formatter($staking_reward)); ?></h4>
             <p class="neo-title">Staking Reward</p>
         </div>
@@ -328,7 +328,7 @@ body, .dashboard-section {
             <div class="neo-icon">
                 <i class="las la-hand-holding-usd"></i>
             </div>
-            <img class="card-wave" src="https://tradx24.tech/asset/images/logo/wave.svg" alt="image">
+            <img class="card-wave" src="<?php echo e(Config::getFile('logo', 'wave.png', true)); ?>" alt="image">
             <h4 class="neo-amount"><?php echo e($myTeam); ?></h4>
             <p class="neo-title">My Team</p>
         </div>
@@ -339,7 +339,7 @@ body, .dashboard-section {
             <div class="neo-icon">
                 <i class="las la-chart-bar"></i>
             </div>
-            <img class="card-wave" src="https://tradx24.tech/asset/images/logo/wave.svg" alt="image">
+            <img class="card-wave" src="<?php echo e(Config::getFile('logo', 'wave.png', true)); ?>" alt="image">
             <h4 class="neo-amount"><?php echo e(Config::formatter($directReward)); ?></h4>
             <p class="neo-title">Direct Reward</p>
         </div>
@@ -350,7 +350,7 @@ body, .dashboard-section {
             <div class="neo-icon">
                 <i class="las la-credit-card"></i>
             </div>
-            <img class="card-wave" src="https://tradx24.tech/asset/images/logo/wave.svg" alt="image">
+            <img class="card-wave" src="<?php echo e(Config::getFile('logo', 'wave.png', true)); ?>" alt="image">
             <h4 class="neo-amount"><?php echo e(Config::formatter($teamReward)); ?></h4>
             <p class="neo-title">Team Reward</p>
         </div>
@@ -361,7 +361,7 @@ body, .dashboard-section {
             <div class="neo-icon">
                 <i class="las la-ticket-alt"></i>
             </div>
-            <img class="card-wave" src="https://tradx24.tech/asset/images/logo/wave.svg" alt="image">
+            <img class="card-wave" src="<?php echo e(Config::getFile('logo', 'wave.png', true)); ?>" alt="image">
             <h4 class="neo-amount"><?php echo e(Config::formatter($totalReward)); ?></h4>
             <p class="neo-title">Total Reward</p>
         </div>

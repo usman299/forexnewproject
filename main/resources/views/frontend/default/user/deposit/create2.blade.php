@@ -38,8 +38,12 @@
                         </div>
                         <div class="form-group mb-4">
                             <label for="" class="mb-3 mt-2">Deposit Network</label>
-                            <select name="network" id="" class="form-select" >
+                            <!-- <select name="network" id="" class="form-select" >
                                 <option value="BEP20(BSC)" selected="">BEP20(BSC)</option>
+                            </select> -->
+                            <select name="network" id="networkSelect" class="form-select">
+                            <option value="BEP20" selected>BEP20 (BSC)</option>
+                            <option value="TRC20">TRON (TRC20)</option>
                             </select>
                         </div>
 
@@ -50,23 +54,34 @@
 
                         <p class="text-center mb-3">{{ __('Minimum deposit amount 10 USDT') }}
                         </p>
-                        <div class="form-group text-center mb-3">
-                            @php $color = [156, 10, 193]; @endphp
+                      
+                        <div id="qrContainer" class="form-group text-center mb-3">
+                                        {!! $data['bnbQr'] !!}        
+
+                            <!-- @php $color = [156, 10, 193]; @endphp
                             {{--                            ->color($color[0], $color[1], $color[2])--}}
                             {!! QrCode::size(200)->generate($data['randomAddress']) !!}
                             {{--                            <img src="data:image/png;base64,{{ base64_encode($data['qrCode']) }}" alt="Random QR Code">--}}
+                      -->
                         </div>
 
                         <div class="input-group">
                             <div class="input-group">
-                                <input type="text" name="address" id="copyText" class="form-control copy-text" placeholder="Addess"
-                                       value="{{$data['randomAddress']}}" readonly>
+                                <!-- <input type="text" name="address" id="copyText" class="form-control copy-text" placeholder="Addess"
+                                       value="{{$data['randomAddress']}}" readonly> -->
+                                       <input type="text"
+                                        name="address"
+                                        id="copyText"
+                                        class="form-control copy-text"
+                                        placeholder="Address"
+                                        value="{{ $data['bnbAddress'] ?? '' }}"
+                                        readonly>
                                 <button type="button" id="copyButton" data-clipboard-target="#copyText"  class="input-group-text sp_bg_base px-4 cop">{{ __('Copy') }}</button>
                             </div>
                         </div>
                         <div class="form-group mt-4 mb-3">
                             <label for="">{{ __('Transaction Id') }}</label>
-                            <input type="text"    name="btrx_id"  class="form-control" placeholder="Past Transaction id" required>
+                            <input type="text"    name="btrx_id"  class="form-control" placeholder="Paste Transaction id" required>
                         </div>
                         <div class="form-group mt-4 mb-3">
                             <div class="file-input-container">
@@ -87,24 +102,55 @@
     <!-- Include clipboard.js from a CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
     <script>
-        // Initialize Clipboard.js
-        var clipboard = new ClipboardJS('#copyButton');
+document.addEventListener('DOMContentLoaded', function () {
 
-        // Show a message when the text is copied
-        clipboard.on('success', function (e) {
-            Swal.fire({
-                position: "top-end",
-                icon: "success",
-                title: "Address Copied Successfully",
-                showConfirmButton: false,
-                timer: 1500
-            });
-            e.clearSelection(); // Clear the selection after copying
-        });
+    const networkSelect = document.getElementById('networkSelect');
+    const copyText = document.getElementById('copyText');
+    const qrContainer = document.getElementById('qrContainer');
 
-        // Handle errors
-        clipboard.on('error', function (e) {
-            console.error('Unable to copy text.');
-        });
+    const dataMap = {
+        BEP20: {
+            address: "{{ $data['bnbAddress'] }}",
+            qr: `{!! $data['bnbQr'] !!}`
+        },
+        TRC20: {
+            address: "{{ $data['tronAddress'] }}",
+            qr: `{!! $data['tronQr'] !!}`
+        }
+    };
+
+    networkSelect.addEventListener('change', function () {
+        const selected = this.value;
+
+        if (dataMap[selected]) {
+            copyText.value = dataMap[selected].address;
+            qrContainer.innerHTML = dataMap[selected].qr;
+        }
+    });
+
+});
+</script>
+
+    <script>
+        
+        // // Initialize Clipboard.js
+        // var clipboard = new ClipboardJS('#copyButton');
+
+        // // Show a message when the text is copied
+        // clipboard.on('success', function (e) {
+        //     Swal.fire({
+        //         position: "top-end",
+        //         icon: "success",
+        //         title: "Address Copied Successfully",
+        //         showConfirmButton: false,
+        //         timer: 1500
+        //     });
+        //     e.clearSelection(); // Clear the selection after copying
+        // });
+
+        // // Handle errors
+        // clipboard.on('error', function (e) {
+        //     console.error('Unable to copy text.');
+        // });
     </script>
 @endsection
