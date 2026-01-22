@@ -80,7 +80,7 @@
 
                         <li><a href="{{ route('admin.deposit', 'online') }}">{{ __('Deposit') }}</a></li>
 
-{{--                        <li><a href="{{ route('admin.deposit', 'offline') }}">{{ __('Offline Deposit') }}</a></li>--}}
+                       <li><a href="{{ route('admin.deposit', 'offline') }}">{{ __('Request Deposit') }}</a></li>
                     </ul>
                 </li>
             @endif

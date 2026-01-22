@@ -206,6 +206,7 @@ Route::name('user.')->group(function () {
             Route::get('daily/earning', [DepositController::class, 'dailyEarning'])->name('daily.earning');
             Route::get('deposit', [DepositController::class, 'deposit'])->name('deposit');
             Route::get('deposit/create', [DepositController::class, 'depositCreate'])->name('deposit.create');
+            Route::post('deposit/store/submit', [DepositController::class, 'depositStoreTrd'])->name('deposit.store.submit');
             Route::post('deposit/store', [DepositController::class, 'depositStore'])->name('deposit.store');
             Route::post('/store-deposit', [DepositController::class, 'store'])->name('store.deposit');
 

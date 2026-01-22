@@ -68,6 +68,35 @@ class DepositController extends Controller
          $data['qrCode'] = QrCode::size(200)->color($color[0], $color[1], $color[2])->generate($data['randomAddress']);
         return view(Helper::theme().'user.deposit.create2',compact('data'));
     }
+    public function depositStoreTrd(Request $request)
+    {
+        // dd($request->all());
+        if ($request->has('payment_proof')) {
+            $filename = Helper::saveImage($request->payment_proof, Helper::filePath('admin'));
+            $payment_proof = $filename;
+            
+        }
+        
+        $user = auth()->user();
+        $deposit = Deposit::create([
+            'trx' => Str::upper(Str::random(16)),
+            'amount' => $request->amount,
+            'total' => $request->amount,
+            //  'address' => $request->address,
+            'random_address' => $request->address,
+            'btrx_id' => $request->btrx_id,
+            'network' => $request->network,
+            'charge' => 0,
+            'gateway_id' => 16,
+            'status' => 2,
+            'type' => '+',
+            'user_id' => auth()->id(),
+            'payment_proof' => $payment_proof ,
+
+        ]);
+      
+        return back()->with('success', 'Deposit request submitted! Admin will review and amount will be added once confirmed.');
+    }
     public function depositStore(Request $request)
     {
         if ($request->has('payment_proof')) {
@@ -161,89 +190,89 @@ class DepositController extends Controller
             return response()->json(['message' => 'Transaction hash Not stored successfully.Something Wrong']);
         }
 
-//        $deposit = Deposit::create([
-//            'trx' => Str::upper(Str::random(16)),
-//            'amount' => $request->amount,
-//            'total' => $request->amount,
-//            'address' => $request->address,
-//            'random_address' => $request->randomAddress,
-//            'btrx_id' => $request->txHash,
-//            'charge' => 0,
-//            'gateway_id' => 16,
-//            'status' => 1,
-//            'type' => 1,
-//            'user_id' => auth()->id(),
-//        ]);
-//        Transaction::create([
-//            'trx' => $deposit->trx,
-//            'amount' => $deposit->amount,
-//            'details' => 'Payment Deposit Successfully',
-//            'charge' => 0,
-//            'type' => '+',
-//            'type_two' => 1,
-//            'rec_id' => 0,
-//            'user_id' => auth()->id()
-//        ]);
+        $deposit = Deposit::create([
+           'trx' => Str::upper(Str::random(16)),
+           'amount' => $request->amount,
+           'total' => $request->amount,
+           'address' => $request->address,
+           'random_address' => $request->randomAddress,
+           'btrx_id' => $request->txHash,
+           'charge' => 0,
+           'gateway_id' => 16,
+           'status' => 1,
+           'type' => 1,
+           'user_id' => auth()->id(),
+       ]);
+       Transaction::create([
+           'trx' => $deposit->trx,
+           'amount' => $deposit->amount,
+           'details' => 'Payment Deposit Successfully',
+           'charge' => 0,
+           'type' => '+',
+           'type_two' => 1,
+           'rec_id' => 0,
+           'user_id' => auth()->id()
+       ]);
 
 
-//        if($user->tx >$user->ttx){
-//            $user->balance = $user->balance + $request->amount;
-//            $user->tx =  $user->tx + ($request->amount * 3);
-//            $user->update();
-//        }
-//        else{
-//            $user->balance =  $request->amount;
-//            $user->tx = $user->tx +  ($request->amount * 3);
-//            $user->update();
-//        }
+       if($user->tx >$user->ttx){
+           $user->balance = $user->balance + $request->amount;
+           $user->tx =  $user->tx + ($request->amount * 3);
+           $user->update();
+       }
+       else{
+           $user->balance =  $request->amount;
+           $user->tx = $user->tx +  ($request->amount * 3);
+           $user->update();
+       }
 
-//        <------------->
-//        if($user->ref_id!=0){
-//            $deposit = Deposit::where('user_id',$user->ref_id)->sum('amount');
-//            $reffer_user = User::where('status', '=', 1)->where('id', $user->ref_id)->first();
-//            if($deposit!=0) {
-//                $userDeposit = $reffer_user->tx;
-////                $profit = Transaction::where('user_id', '=', $user->id)->whereIn('type_two', [5, 3])->sum('amount');
-//                $calculateamount  = $request->amount * 0.05;
-//                $check = $reffer_user->ttx + $calculateamount;;
-//                if($userDeposit >= $check){
-//
-//                    $reffer_user->ttx = $reffer_user->ttx + ($request->amount * 0.05);
-//                    $reffer_user->update();
-//                    Transaction::create([
-//                        'trx' => Str::upper(Str::random(16)),
-//                        'amount' => ($request->amount * 0.05),
-//                        'details' => 'Deposit Profit added by ' . $user->username2 ?? ' ',
-//                        'charge' => 0,
-//                        'type' => '+',
-//                        'type_two' => 3,
-//                        'rec_id' => auth()->id(),
-//                        'user_id' => $reffer_user->id,
-//                    ]);
-//                }
-//                else {
-//                    $subammount = $reffer_user->tx - $reffer_user->ttx;
-//                    if($subammount > 0.0) {
-//                        $reffer_user->ttx = $reffer_user->ttx + $subammount;
-//                        $reffer_user->update();
-//
-//                        Transaction::create([
-//                            'trx' => Str::upper(Str::random(16)),
-//                            'amount' => $subammount,
-//                            'details' => 'Deposit Profit added by ' . $user->username2 ?? ' ',
-//                            'charge' => 0,
-//                            'type' => '+',
-//                            'type_two' => 3,
-//                            'rec_id' => auth()->id(),
-//                            'user_id' => $reffer_user->id,
-//                        ]);
-//
-//                    }
-//                }
-//            }
-//
-//        }
-        //        <------------->
+    //    <------------->
+       if($user->ref_id!=0){
+           $deposit = Deposit::where('user_id',$user->ref_id)->sum('amount');
+           $reffer_user = User::where('status', '=', 1)->where('id', $user->ref_id)->first();
+           if($deposit!=0) {
+               $userDeposit = $reffer_user->tx;
+//                $profit = Transaction::where('user_id', '=', $user->id)->whereIn('type_two', [5, 3])->sum('amount');
+               $calculateamount  = $request->amount * 0.05;
+               $check = $reffer_user->ttx + $calculateamount;
+               if($userDeposit >= $check){
+
+                   $reffer_user->ttx = $reffer_user->ttx + ($request->amount * 0.05);
+                   $reffer_user->update();
+                   Transaction::create([
+                       'trx' => Str::upper(Str::random(16)),
+                       'amount' => ($request->amount * 0.05),
+                       'details' => 'Deposit Profit added by ' . $user->username2 ?? ' ',
+                       'charge' => 0,
+                       'type' => '+',
+                       'type_two' => 3,
+                       'rec_id' => auth()->id(),
+                       'user_id' => $reffer_user->id,
+                   ]);
+               }
+               else {
+                   $subammount = $reffer_user->tx - $reffer_user->ttx;
+                   if($subammount > 0.0) {
+                       $reffer_user->ttx = $reffer_user->ttx + $subammount;
+                       $reffer_user->update();
+
+                       Transaction::create([
+                           'trx' => Str::upper(Str::random(16)),
+                           'amount' => $subammount,
+                           'details' => 'Deposit Profit added by ' . $user->username2 ?? ' ',
+                           'charge' => 0,
+                           'type' => '+',
+                           'type_two' => 3,
+                           'rec_id' => auth()->id(),
+                           'user_id' => $reffer_user->id,
+                       ]);
+
+                   }
+               }
+           }
+
+       }
+            //    <------------->
 
     }
     public function withdrawCreate()

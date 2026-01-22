@@ -19,58 +19,98 @@
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
-                        <table class="table sp_site_table">
-                            <thead>
-                                <tr>
-                                    <th>{{ __('Trx') }}</th>
-                                    <th>{{ __('USDT Trx') }}</th>
-                                    <th>{{ __('Unique ID') }}</th>
-                                    <th>{{ __('Gateway') }}</th>
-                                    <th>{{ __('Amount') }}</th>
-                                    <th>{{ __('Currency') }}</th>
-                                    <th>{{ __('Charge') }}</th>
-                                    <th>{{ __('Date') }}</th>
-                                    <th>{{ __('Status') }}</th>
-                                </tr>
-                            </thead>
+                       <table class="table sp_site_table">
+    <thead>
+        <tr>
+            <th>{{ __('Trx') }}</th>
+            <th>{{ __('USDT Trx') }}</th>
+            <th>{{ __('User') }}</th>
+            <th>{{ __('Gateway') }}</th>
+            <th>{{ __('Network') }}</th>
+            <th>{{ __('Address') }}</th>
+            <th>{{ __('Amount') }}</th>
+            <th>{{ __('Currency') }}</th>
+            <th>{{ __('Charge') }}</th>
+            <th>{{ __('Proof') }}</th>
+            <th>{{ __('Date') }}</th>
+            <th>{{ __('Status') }}</th>
+        </tr>
+    </thead>
 
-                            <tbody>
-                                @forelse($deposits as $key => $deposit)
-                                    <tr>
-                                        <td data-caption="{{ __('Trx') }}">{{ $deposit->trx }}</td>
-                                        <td data-caption="{{ __('Trx') }}">{{ $deposit->btrx_id }}</td>
-                                        <td data-caption="{{ __('User') }}">
-                                            {{ $deposit->user->username }}</td>
-                                        <td data-caption="{{ __('Gateway') }}">
-                                            {{ $deposit->gateway->name ?? 'Account Transfer' }}</td>
-                                        <td data-caption="{{ __('Amount') }}">{{ Config::formatter($deposit->amount) }}</td>
-                                        <td data-caption="{{ __('Currency') }}">{{ Config::config()->currency }}</td>
-                                        <td data-caption="{{ __('Charge') }}">
-                                            {{ Config::formatter($deposit->charge) }}</td>
+    <tbody>
+        @forelse($deposits as $key => $deposit)
+            <tr>
+                <td data-caption="Trx">{{ $deposit->trx }}</td>
 
-                                        <td data-caption="{{ __('Date') }}">
-                                            {{ $deposit->created_at->format('Y-m-d') }}
-                                        </td>
+                <td data-caption="USDT Trx">{{ $deposit->btrx_id }}</td>
 
-                                        <td data-caption="{{ __('Status') }}">
-                                            @if ($deposit->status == 1)
-                                                <span class="sp_badge sp_badge_success">{{ __('Successfull') }}</span>
-                                            @elseif($deposit->status == 2)
-                                                <span class="sp_badge sp_badge_warning">{{ __('Pending') }}</span>
-                                            @else
-                                                <span class="sp_badge sp_badge_danger">{{ __('Reject') }}</span>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td class="text-center" colspan="100%">
-                                            {{ __('No Deposits Found') }}
-                                        </td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
+                <td data-caption="User">
+                    {{ $deposit->user->username }}
+                </td>
+
+                <td data-caption="Gateway">
+                    {{ $deposit->gateway->name ?? 'Account Transfer' }}
+                </td>
+
+                {{-- Network column --}}
+                <td data-caption="Network">
+                    {{ $deposit->network ?? '-' }}
+                </td>
+
+                {{-- Address column --}}
+                <td data-caption="Address" style="max-width:200px; word-break:break-all;">
+                    {{ $deposit->random_address ?? '-' }}
+                </td>
+
+                <td data-caption="Amount">
+                    {{ Config::formatter($deposit->amount) }}
+                </td>
+
+                <td data-caption="Currency">
+                    {{ Config::config()->currency }}
+                </td>
+
+                <td data-caption="Charge">
+                    {{ Config::formatter($deposit->charge) }}
+                </td>
+
+                {{-- Payment Proof Image --}}
+                <td data-caption="Proof">
+                    @if($deposit->payment_proof)
+                        <a href="{{  Config::getFile('admin', $deposit->payment_proof)  }}" target="_blank">
+                            <img src="{{  Config::getFile('admin', $deposit->payment_proof)  }}"
+                                 alt="Proof"
+                                 style="max-width:60px; border-radius:4px;">
+                        </a>
+                    @else
+                        <span>-</span>
+                    @endif
+                </td>
+
+                <td data-caption="Date">
+                    {{ $deposit->created_at->format('Y-m-d') }}
+                </td>
+
+                <td data-caption="Status">
+                    @if ($deposit->status == 1)
+                        <span class="sp_badge sp_badge_success">{{ __('Successful') }}</span>
+                    @elseif($deposit->status == 2)
+                        <span class="sp_badge sp_badge_warning">{{ __('Pending') }}</span>
+                    @else
+                        <span class="sp_badge sp_badge_danger">{{ __('Rejected') }}</span>
+                    @endif
+                </td>
+            </tr>
+        @empty
+            <tr>
+                <td class="text-center" colspan="100%">
+                    {{ __('No Deposits Found') }}
+                </td>
+            </tr>
+        @endforelse
+    </tbody>
+</table>
+
 
 
                     </div>

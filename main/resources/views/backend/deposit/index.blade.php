@@ -1,6 +1,11 @@
 @extends('backend.layout.master')
 
-
+<style>
+    button.btn.btn-sm.btn-outline-secondary.copy-btn {
+    color: white;
+}
+.
+</style>
 @section('element')
     <div class="row">
 
@@ -22,66 +27,131 @@
                 <div class="card-body p-0">
                     <div class="table-responsive">
                         <table class="table student-data-table m-t-20">
-                            <thead>
-                                <tr>
-                                    
-                                    <th>{{ __('TRX') }}</th>
-                                    <th>{{ __('User') }}</th>
-                                    <th>{{ __('Amount') }}</th>
-                                    <th>{{ __('Charge') }}</th>
-                                    <th>{{ __('status') }}</th>
-                                    <th>{{ __('Action') }}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($deposits as $key => $manual)
-                                    <tr>
-                                        <td>{{ $manual->trx }}</td>
-                                        <td>
-                                            <a href="{{ route('admin.user.details', $manual->user->id) }}">
-                                                <img src="{{ Config::getFile('user', $manual->user->image, true) }}"
-                                                    alt="" class="image-table">
-                                                <span>
-                                                    {{ $manual->user->username }}
-                                                </span>
-                                            </a>
+    <thead>
+        <tr>
+            <th>{{ __('TRX') }}</th>
+            <th>{{ __('User') }}</th>
+            <th>{{ __('USDT Trx') }}</th>
+            <th>{{ __('Network') }}</th>
+            <th>{{ __('Gateway') }}</th>
+            <th>{{ __('Address') }}</th>
+            <th>{{ __('Amount') }}</th>
+            <th>{{ __('Charge') }}</th>
+            <th>{{ __('Date') }}</th>
+            <th>{{ __('Status') }}</th>
+            <th>{{ __('Action') }}</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @forelse ($deposits as $key => $manual)
+            <tr>
+                <td>{{ $manual->trx }}</td>
+
+                <td>
+                    <a href="{{ route('admin.user.details', $manual->user->id) }}">
+                        <span>{{ $manual->user->username }}</span>
+                    </a>
+                </td>
+
+                {{-- USDT Trx with Copy --}}
+                <td>
+                    <span id="trx-{{ $key }}">{{ $manual->btrx_id }}</span>
+                    <button type="button"
+                            class="btn btn-sm btn-outline-secondary copy-btn"
+                            data-copy="trx-{{ $key }}">
+                        {{ __('Copy') }}
+                    </button>
+                </td>
+
+                {{-- Network --}}
+                <td>
+                    {{ $manual->network ?? '-' }}
+                </td>
+
+                {{-- Gateway --}}
+                <td>
+                    {{ $manual->gateway->name ?? 'Account Transfer' }}
+                </td>
+
+                {{-- Address with Copy --}}
+               <td style="max-width:200px;">
+
+    {{-- Short visible text --}}
+    <span id="addr-{{ $key }}"
+          data-full="{{ $manual->random_address }}"
+          style="
+            display:inline-block;
+            max-width:140px;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            white-space:nowrap;
+            vertical-align:middle;
+          ">
+        {{ \Illuminate\Support\Str::limit($manual->random_address, 18, '...') }}
+    </span>
+
+    @if($manual->random_address)
+        <button type="button"
+                class="btn btn-sm btn-outline-secondary copy-btn"
+                data-copy="addr-{{ $key }}">
+            {{ __('Copy') }}
+        </button>
+
+        {{-- Small copied message --}}
+        <small id="copied-{{ $key }}" style="display:none; color:green; margin-left:5px;">
+            Copied
+        </small>
+    @endif
+
+</td>
 
 
-                                        </td>
-                                        <td>{{ Config::formatter($manual->amount)}}</td>
-                                        <td>
-                                            {{ Config::formatter($manual->charge)}}
-                                        </td>
-                                        <td>
-                                            @if ($manual->status == 2)
-                                                <span class="badge badge-warning">{{ __('Pending') }}</span>
-                                            @elseif($manual->status == 1)
-                                                <span class="badge badge-success">{{ __('Approved') }}</span>
-                                            @elseif($manual->status == 3)
-                                                <span class="badge badge-danger">{{ __('Rejected') }}</span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <a class="btn btn-sm btn-outline-primary details"
-                                                href="{{ route('admin.deposit.details', $manual->trx) }}">
-                                                <i class="far fa-eye"></i></a>
+                <td>{{ Config::formatter($manual->amount) }}</td>
 
-                                            @if ($manual->status == 2)
-                                                <a class="btn  btn-sm btn-outline-primary accept"
-                                                    data-url="{{ route('admin.deposit.accept', $manual->trx) }}"><i class="fas fa-check"></i></a>
-                                                <a class="btn  btn-sm btn-outline-danger reject"
-                                                    data-url="{{ route('admin.deposit.reject', $manual->trx) }}"><i class="fas fa-times"></i></a>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td class="text-center" colspan="100%">{{ __('No Data Found') }}
-                                        </td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
+                <td>{{ Config::formatter($manual->charge) }}</td>
+
+                <td>
+                    {{ $manual->created_at->format('Y-m-d') }}
+                </td>
+
+                <td>
+                    @if ($manual->status == 2)
+                        <span class="badge badge-warning">{{ __('Pending') }}</span>
+                    @elseif($manual->status == 1)
+                        <span class="badge badge-success">{{ __('Approved') }}</span>
+                    @elseif($manual->status == 3)
+                        <span class="badge badge-danger">{{ __('Rejected') }}</span>
+                    @endif
+                </td>
+
+                <td>
+                    <a class="btn btn-sm btn-outline-primary details"
+                       href="{{ route('admin.deposit.details', $manual->trx) }}">
+                        <i class="far fa-eye"></i>
+                    </a>
+
+                    @if ($manual->status == 2)
+                        <a class="btn btn-sm btn-outline-primary accept"
+                           data-url="{{ route('admin.deposit.accept', $manual->trx) }}">
+                            <i class="fas fa-check"></i>
+                        </a>
+
+                        <a class="btn btn-sm btn-outline-danger reject"
+                           data-url="{{ route('admin.deposit.reject', $manual->trx) }}">
+                            <i class="fas fa-times"></i>
+                        </a>
+                    @endif
+                </td>
+            </tr>
+        @empty
+            <tr>
+                <td class="text-center" colspan="100%">{{ __('No Data Found') }}</td>
+            </tr>
+        @endforelse
+    </tbody>
+</table>
+
                     </div>
                 </div>
                 @if ($deposits->hasPages())
@@ -195,5 +265,36 @@
             })
 
         })
+        
     </script>
+    <script>
+document.addEventListener('click', function (e) {
+
+    if (e.target.classList.contains('copy-btn')) {
+
+        const targetId = e.target.getAttribute('data-copy');
+        const span = document.getElementById(targetId);
+
+        // Full address from data attribute
+        const fullText = span.getAttribute('data-full');
+
+        navigator.clipboard.writeText(fullText).then(function () {
+
+            const key = targetId.replace('addr-', '');
+            const msg = document.getElementById('copied-' + key);
+
+            if (msg) {
+                msg.style.display = 'inline';
+
+                setTimeout(() => {
+                    msg.style.display = 'none';
+                }, 1500);
+            }
+
+        });
+    }
+
+});
+</script>
+
 @endpush

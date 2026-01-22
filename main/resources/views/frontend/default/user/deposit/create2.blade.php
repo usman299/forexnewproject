@@ -28,7 +28,7 @@
                         <span class="text-white">{{ Config::formatter(auth()->user()->balance)}}</span></p>
                 </div>
                 <div class="card-body">
-                    <form action="{{route('user.deposit.store')}}" method="post" enctype="multipart/form-data">
+                    <form action="{{route('user.deposit.store.submit')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group mb-4">
                             <label for="" class="mb-3 mt-2">Deposit Crypto</label>
@@ -52,7 +52,7 @@
                             <input type="number"  min="10"  name="amount" id="amount" class="form-control" placeholder="Deposit Amount" required>
                         </div>
 
-                        <p class="text-center mb-3">{{ __('Minimum deposit amount 10 USDT') }}
+                        <p class="text-center mb-3">{{ __('Minimum deposit amount 50 USDT') }}
                         </p>
                       
                         <div id="qrContainer" class="form-group text-center mb-3">

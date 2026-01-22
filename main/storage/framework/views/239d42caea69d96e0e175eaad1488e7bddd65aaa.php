@@ -1,6 +1,11 @@
 
 
-
+<style>
+    button.btn.btn-sm.btn-outline-secondary.copy-btn {
+    color: white;
+}
+.
+</style>
 <?php $__env->startSection('element'); ?>
     <div class="row">
 
@@ -22,69 +27,137 @@
                 <div class="card-body p-0">
                     <div class="table-responsive">
                         <table class="table student-data-table m-t-20">
-                            <thead>
-                                <tr>
-                                    
-                                    <th><?php echo e(__('TRX')); ?></th>
-                                    <th><?php echo e(__('User')); ?></th>
-                                    <th><?php echo e(__('Amount')); ?></th>
-                                    <th><?php echo e(__('Charge')); ?></th>
-                                    <th><?php echo e(__('status')); ?></th>
-                                    <th><?php echo e(__('Action')); ?></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php $__empty_1 = true; $__currentLoopData = $deposits; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $manual): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                                    <tr>
-                                        <td><?php echo e($manual->trx); ?></td>
-                                        <td>
-                                            <a href="<?php echo e(route('admin.user.details', $manual->user->id)); ?>">
-                                                <img src="<?php echo e(Config::getFile('user', $manual->user->image, true)); ?>"
-                                                    alt="" class="image-table">
-                                                <span>
-                                                    <?php echo e($manual->user->username); ?>
+    <thead>
+        <tr>
+            <th><?php echo e(__('TRX')); ?></th>
+            <th><?php echo e(__('User')); ?></th>
+            <th><?php echo e(__('USDT Trx')); ?></th>
+            <th><?php echo e(__('Network')); ?></th>
+            <th><?php echo e(__('Gateway')); ?></th>
+            <th><?php echo e(__('Address')); ?></th>
+            <th><?php echo e(__('Amount')); ?></th>
+            <th><?php echo e(__('Charge')); ?></th>
+            <th><?php echo e(__('Date')); ?></th>
+            <th><?php echo e(__('Status')); ?></th>
+            <th><?php echo e(__('Action')); ?></th>
+        </tr>
+    </thead>
 
-                                                </span>
-                                            </a>
+    <tbody>
+        <?php $__empty_1 = true; $__currentLoopData = $deposits; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $manual): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+            <tr>
+                <td><?php echo e($manual->trx); ?></td>
+
+                <td>
+                    <a href="<?php echo e(route('admin.user.details', $manual->user->id)); ?>">
+                        <span><?php echo e($manual->user->username); ?></span>
+                    </a>
+                </td>
+
+                
+                <td>
+                    <span id="trx-<?php echo e($key); ?>"><?php echo e($manual->btrx_id); ?></span>
+                    <button type="button"
+                            class="btn btn-sm btn-outline-secondary copy-btn"
+                            data-copy="trx-<?php echo e($key); ?>">
+                        <?php echo e(__('Copy')); ?>
+
+                    </button>
+                </td>
+
+                
+                <td>
+                    <?php echo e($manual->network ?? '-'); ?>
+
+                </td>
+
+                
+                <td>
+                    <?php echo e($manual->gateway->name ?? 'Account Transfer'); ?>
+
+                </td>
+
+                
+               <td style="max-width:200px;">
+
+    
+    <span id="addr-<?php echo e($key); ?>"
+          data-full="<?php echo e($manual->random_address); ?>"
+          style="
+            display:inline-block;
+            max-width:140px;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            white-space:nowrap;
+            vertical-align:middle;
+          ">
+        <?php echo e(\Illuminate\Support\Str::limit($manual->random_address, 18, '...')); ?>
+
+    </span>
+
+    <?php if($manual->random_address): ?>
+        <button type="button"
+                class="btn btn-sm btn-outline-secondary copy-btn"
+                data-copy="addr-<?php echo e($key); ?>">
+            <?php echo e(__('Copy')); ?>
+
+        </button>
+
+        
+        <small id="copied-<?php echo e($key); ?>" style="display:none; color:green; margin-left:5px;">
+            Copied
+        </small>
+    <?php endif; ?>
+
+</td>
 
 
-                                        </td>
-                                        <td><?php echo e(Config::formatter($manual->amount)); ?></td>
-                                        <td>
-                                            <?php echo e(Config::formatter($manual->charge)); ?>
+                <td><?php echo e(Config::formatter($manual->amount)); ?></td>
 
-                                        </td>
-                                        <td>
-                                            <?php if($manual->status == 2): ?>
-                                                <span class="badge badge-warning"><?php echo e(__('Pending')); ?></span>
-                                            <?php elseif($manual->status == 1): ?>
-                                                <span class="badge badge-success"><?php echo e(__('Approved')); ?></span>
-                                            <?php elseif($manual->status == 3): ?>
-                                                <span class="badge badge-danger"><?php echo e(__('Rejected')); ?></span>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td>
-                                            <a class="btn btn-sm btn-outline-primary details"
-                                                href="<?php echo e(route('admin.deposit.details', $manual->trx)); ?>">
-                                                <i class="far fa-eye"></i></a>
+                <td><?php echo e(Config::formatter($manual->charge)); ?></td>
 
-                                            <?php if($manual->status == 2): ?>
-                                                <a class="btn  btn-sm btn-outline-primary accept"
-                                                    data-url="<?php echo e(route('admin.deposit.accept', $manual->trx)); ?>"><i class="fas fa-check"></i></a>
-                                                <a class="btn  btn-sm btn-outline-danger reject"
-                                                    data-url="<?php echo e(route('admin.deposit.reject', $manual->trx)); ?>"><i class="fas fa-times"></i></a>
-                                            <?php endif; ?>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                                    <tr>
-                                        <td class="text-center" colspan="100%"><?php echo e(__('No Data Found')); ?>
+                <td>
+                    <?php echo e($manual->created_at->format('Y-m-d')); ?>
 
-                                        </td>
-                                    </tr>
-                                <?php endif; ?>
-                            </tbody>
-                        </table>
+                </td>
+
+                <td>
+                    <?php if($manual->status == 2): ?>
+                        <span class="badge badge-warning"><?php echo e(__('Pending')); ?></span>
+                    <?php elseif($manual->status == 1): ?>
+                        <span class="badge badge-success"><?php echo e(__('Approved')); ?></span>
+                    <?php elseif($manual->status == 3): ?>
+                        <span class="badge badge-danger"><?php echo e(__('Rejected')); ?></span>
+                    <?php endif; ?>
+                </td>
+
+                <td>
+                    <a class="btn btn-sm btn-outline-primary details"
+                       href="<?php echo e(route('admin.deposit.details', $manual->trx)); ?>">
+                        <i class="far fa-eye"></i>
+                    </a>
+
+                    <?php if($manual->status == 2): ?>
+                        <a class="btn btn-sm btn-outline-primary accept"
+                           data-url="<?php echo e(route('admin.deposit.accept', $manual->trx)); ?>">
+                            <i class="fas fa-check"></i>
+                        </a>
+
+                        <a class="btn btn-sm btn-outline-danger reject"
+                           data-url="<?php echo e(route('admin.deposit.reject', $manual->trx)); ?>">
+                            <i class="fas fa-times"></i>
+                        </a>
+                    <?php endif; ?>
+                </td>
+            </tr>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+            <tr>
+                <td class="text-center" colspan="100%"><?php echo e(__('No Data Found')); ?></td>
+            </tr>
+        <?php endif; ?>
+    </tbody>
+</table>
+
                     </div>
                 </div>
                 <?php if($deposits->hasPages()): ?>
@@ -199,7 +272,38 @@
             })
 
         })
+        
     </script>
+    <script>
+document.addEventListener('click', function (e) {
+
+    if (e.target.classList.contains('copy-btn')) {
+
+        const targetId = e.target.getAttribute('data-copy');
+        const span = document.getElementById(targetId);
+
+        // Full address from data attribute
+        const fullText = span.getAttribute('data-full');
+
+        navigator.clipboard.writeText(fullText).then(function () {
+
+            const key = targetId.replace('addr-', '');
+            const msg = document.getElementById('copied-' + key);
+
+            if (msg) {
+                msg.style.display = 'inline';
+
+                setTimeout(() => {
+                    msg.style.display = 'none';
+                }, 1500);
+            }
+
+        });
+    }
+
+});
+</script>
+
 <?php $__env->stopPush(); ?>
 
 <?php echo $__env->make('backend.layout.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\forexxx\main\resources\views/backend/deposit/index.blade.php ENDPATH**/ ?>

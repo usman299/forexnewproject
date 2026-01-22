@@ -80,7 +80,7 @@
 
                         <li><a href="<?php echo e(route('admin.deposit', 'online')); ?>"><?php echo e(__('Deposit')); ?></a></li>
 
-
+                       <li><a href="<?php echo e(route('admin.deposit', 'offline')); ?>"><?php echo e(__('Request Deposit')); ?></a></li>
                     </ul>
                 </li>
             <?php endif; ?>
