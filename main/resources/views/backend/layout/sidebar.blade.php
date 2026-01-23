@@ -154,7 +154,7 @@
                 </li>
 {{--            @endif--}}
 
-            @if (auth()->guard('admin')->user()->can('manage-theme'))
+            <!-- @if (auth()->guard('admin')->user()->can('manage-theme'))
                 <li><a href="{{ route('admin.manage.theme') }}" aria-expanded="false"><i
                             data-feather="layers"></i><span class="nav-text">{{ __('Manage Theme') }}</span></a>
                 </li>
@@ -183,9 +183,9 @@
                 <li><a href="{{ route('admin.language.index') }}" aria-expanded="false"><i
                             data-feather="globe"></i><span class="nav-text">{{ __('Manage Language') }}</span></a>
                 </li>
-            @endif
+            @endif -->
 
-            @if (auth()->guard('admin')->user()->can('manage-role') ||
+            <!-- @if (auth()->guard('admin')->user()->can('manage-role') ||
                     auth()->guard('admin')->user()->can('manage-admin'))
                 <li class="nav-label">{{ __('Administration') }}</li>
             @endif
@@ -206,7 +206,7 @@
                         <span class="nav-text">{{ __('Manage Admins') }}</span>
                     </a>
                 </li>
-            @endif
+            @endif -->
 
 
 
