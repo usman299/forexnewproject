@@ -10,6 +10,7 @@ use App\Models\Gateway;
 use App\Models\Template;
 use App\Models\Transaction;
 use Carbon\Carbon;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ManageDepositController extends Controller
@@ -64,31 +65,80 @@ class ManageDepositController extends Controller
     {
 
         $deposit = Deposit::where('trx', $request->trx)->firstOrFail();
-
-
+        
         $general = Configuration::first();
-
         $gateway = Gateway::find($deposit->gateway_id);
-
         $deposit->status = 1;
         $deposit->save();
-
-
-        $deposit->user->balance = $deposit->user->balance + $deposit->amount;
-
-        $deposit->user->save();
-
-
         Transaction::create([
-            'trx' => $deposit->trx,
-            'amount' => $deposit->amount,
-            'details' => 'Deposit Successfull',
-            'charge' => $gateway->charge,
-            'type' => '+',
-            'user_id' => $deposit->user_id
-        ]);
+                    'trx' => $deposit->trx,
+                    'amount' => $deposit->amount,
+                    'details' => 'Payment Deposit Successfully',
+                    'charge' => 0,
+                    'type' => '+',
+                    'type_two' => 1,
+                    'rec_id' => 0,
+                    'user_id' => auth()->id()
+                ]);
+        $user = User::find($deposit->user->id);
+       
+        if($user->tx >$user->ttx){
+           $user->balance = $user->balance + $deposit->amount;
+           $user->tx =  $user->tx + ($deposit->amount * 3);
+           $user->update();
+       }
+       else{
+           $user->balance =  $deposit->amount;
+           $user->tx = $user->tx +  ($deposit->amount * 3);
+           $user->update();
+       }
 
+    //    <------------->
+       if($user->ref_id!=0){
+           $deposit = Deposit::where('user_id',$user->ref_id)->sum('amount');
+           $reffer_user = User::where('status', '=', 1)->where('id', $user->ref_id)->first();
+           if($deposit!=0) {
+               $userDeposit = $reffer_user->tx;
+//                $profit = Transaction::where('user_id', '=', $user->id)->whereIn('type_two', [5, 3])->sum('amount');
+               $calculateamount  = $deposit->amount * 0.07;
+               $check = $reffer_user->ttx + $calculateamount;
+               if($userDeposit >= $check){
 
+                   $reffer_user->ttx = $reffer_user->ttx + ($deposit->amount * 0.07);
+                   $reffer_user->update();
+                   Transaction::create([
+                       'trx' => Str::upper(Str::random(16)),
+                       'amount' => ($deposit->amount * 0.07),
+                       'details' => 'Deposit Profit added by ' . $user->username2 ?? ' ',
+                       'charge' => 0,
+                       'type' => '+',
+                       'type_two' => 3,
+                       'rec_id' => auth()->id(),
+                       'user_id' => $reffer_user->id,
+                   ]);
+               }
+               else {
+                   $subammount = $reffer_user->tx - $reffer_user->ttx;
+                   if($subammount > 0.0) {
+                       $reffer_user->ttx = $reffer_user->ttx + $subammount;
+                       $reffer_user->update();
+
+                       Transaction::create([
+                           'trx' => Str::upper(Str::random(16)),
+                           'amount' => $subammount,
+                           'details' => 'Deposit Profit added by ' . $user->username2 ?? ' ',
+                           'charge' => 0,
+                           'type' => '+',
+                           'type_two' => 3,
+                           'rec_id' => auth()->id(),
+                           'user_id' => $reffer_user->id,
+                       ]);
+
+                   }
+               }
+           }
+
+       }
         $template = Template::where('name','payment_confirmed')->where('status',1)->first();
 
         if($template){
@@ -134,7 +184,7 @@ class ManageDepositController extends Controller
                 'app_name' => $general->appname,
                 'trx' => $deposit->trx,
                 'amount' => $deposit->amount,
-                'charge' => number_format($gateway->charge, 4),
+                'charge' => 0,
                 'plan' => '',
                 'currency' => $general->currency
             ];

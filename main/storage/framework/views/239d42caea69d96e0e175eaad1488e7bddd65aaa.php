@@ -56,14 +56,34 @@
 
                 
                 <td>
-                    <span id="trx-<?php echo e($key); ?>"><?php echo e($manual->btrx_id); ?></span>
-                    <button type="button"
-                            class="btn btn-sm btn-outline-secondary copy-btn"
-                            data-copy="trx-<?php echo e($key); ?>">
-                        <?php echo e(__('Copy')); ?>
+    <span id="trx-<?php echo e($key); ?>"
+          data-full="<?php echo e($manual->btrx_id); ?>"
+          style="
+            display:inline-block;
+            max-width:140px;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            white-space:nowrap;
+            vertical-align:middle;
+          ">
+        <?php echo e(\Illuminate\Support\Str::limit($manual->btrx_id, 18, '...')); ?>
 
-                    </button>
-                </td>
+    </span>
+
+    <?php if(!empty($manual->btrx_id)): ?>
+        <button type="button"
+                class="btn btn-sm btn-outline-secondary copy-btn"
+                data-copy="trx-<?php echo e($key); ?>">
+            <?php echo e(__('Copy')); ?>
+
+        </button>
+
+        <small id="copied-trx-<?php echo e($key); ?>" style="display:none; color:green; margin-left:5px;">
+            Copied
+        </small>
+    <?php endif; ?>
+</td>
+
 
                 
                 <td>
@@ -274,35 +294,48 @@
         })
         
     </script>
-    <script>
-document.addEventListener('click', function (e) {
+   <script>
+document.addEventListener('DOMContentLoaded', function () {
 
-    if (e.target.classList.contains('copy-btn')) {
+    document.querySelectorAll('.copy-btn').forEach(function (btn) {
 
-        const targetId = e.target.getAttribute('data-copy');
-        const span = document.getElementById(targetId);
+        btn.addEventListener('click', function () {
 
-        // Full address from data attribute
-        const fullText = span.getAttribute('data-full');
+            let targetId = this.getAttribute('data-copy');
+            let span = document.getElementById(targetId);
 
-        navigator.clipboard.writeText(fullText).then(function () {
+            if (!span) return;
 
-            const key = targetId.replace('addr-', '');
-            const msg = document.getElementById('copied-' + key);
+            let fullText = span.getAttribute('data-full') ?? span.innerText;
 
-            if (msg) {
-                msg.style.display = 'inline';
+            navigator.clipboard.writeText(fullText).then(() => {
 
-                setTimeout(() => {
-                    msg.style.display = 'none';
-                }, 1500);
-            }
+                // Detect which copied message to show
+                let key = targetId.replace('addr-', '').replace('trx-', '');
+
+                let msg =
+                    document.getElementById('copied-' + key) ||
+                    document.getElementById('copied-trx-' + key);
+
+                if (msg) {
+                    msg.style.display = 'inline';
+
+                    setTimeout(function () {
+                        msg.style.display = 'none';
+                    }, 1500);
+                }
+
+            }).catch(() => {
+                alert('Copy failed');
+            });
 
         });
-    }
+
+    });
 
 });
 </script>
+
 
 <?php $__env->stopPush(); ?>
 
