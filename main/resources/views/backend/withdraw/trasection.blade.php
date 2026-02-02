@@ -19,10 +19,10 @@
                             <i class="fa fa-plus mr-2"></i>
                             {{ __('Percentage Commission') }}
                         </button>
-                        <button class="btn btn-sm btn-primary sub">
+                        <!-- <button class="btn btn-sm btn-primary sub">
                             <i class="fa fa-minus mr-2"></i>
                             {{ __('Percentage Delete') }}
-                        </button>
+                        </button> -->
                     </div>
                 </div>
                 <div class="card-body p-0">
@@ -36,6 +36,7 @@
                                 <th>{{ __('Details') }}</th>
                                 <th>{{ __('Charge Type') }}</th>
                                 <th>{{ __('Status') }}</th>
+                                <th>{{ __('Date') }}</th>
                             </tr>
 
                             </thead>
@@ -50,12 +51,16 @@
                                     <td>
                                         <div class="badge badge-success">{{ __('Delivered') }}</div>
                                     </td>
+                                    <td>
+                                        {{ \Carbon\Carbon::parse($profit->created_at)->format('l, d F Y') }}
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>
                                     <td class="text-center" colspan="100%">{{ __('No Data Found') }}</td>
                                 </tr>
                             @endforelse
+                            
                             </tbody>
                         </table>
                     </div>

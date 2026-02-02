@@ -129,146 +129,289 @@ class AdminProfileController extends Controller
         }
         return view('backend.withdraw.ptopusers')->with($data);
 
+
     }
+
     public function percentageStore(Request $request)
-    {
-        $dateString = $request->date;
-        $carbonDate = Carbon::parse($dateString);
-        $formattedDate = $carbonDate->format('Y-m-d H:i:s');
-        $users = User::where('status', '=', 1)->where('balance', '>', 1)->get();
-        if ($users->isNotEmpty()) {
-            foreach ($users as $user) {
+{
+    $dateString = $request->date;
+    $carbonDate = Carbon::parse($dateString);
+    $formattedDate = $carbonDate->format('Y-m-d H:i:s');
 
-                $deposit = Deposit::where('user_id', '=', $user->id)->where('status', '=', 1)->sum('amount');
-                if($deposit!=0){
-                    $calculateamount = $user->balance * ($request->percentage / 100);
-                    $userDeposit = $user->tx;
-                    $check = $user->ttx + $calculateamount;
-                    if ($userDeposit >= $check) {
-//                        $profit = Transaction::where('user_id', '=', $user->id)->whereIn('type_two', [5, 3])->sum('amount');
-                        $user->ttx = $user->ttx + $calculateamount;
-                        $user->update();
-                        Transaction::create([
-                            'trx' => Str::upper(Str::random(16)),
-                            'amount' => $calculateamount,
-                            'details' => 'Your Daily Profit ' . ($request->percentage) . '% Added Successfully',
-                            'charge' => 0,
-                            'type' => '+',
-                            'type_two' => 5,
-                            'rec_id' => 0,
-                            'user_id' => $user->id,
-                            'created_at'=>$formattedDate
-                        ]);
+    $users = User::where('status', 1)
+        ->where('balance', '>', 1)
+        ->get();
+
+    if ($users->isNotEmpty()) {
+        foreach ($users as $user) {
+
+            // ================= USER DEPOSIT CHECK =================
+            $deposit = Deposit::where('user_id', $user->id)
+                ->where('status', 1)
+                ->sum('amount');
+
+            if ($deposit == 0) {
+                continue;
+            }
+
+            // ================= DAILY PROFIT =================
+            $calculateamount = $user->balance * ($request->percentage / 100);
+
+            $maxEarning = $user->tx;
+            $currentEarning = $user->ttx;
+            $check = $currentEarning + $calculateamount;
+
+            if ($maxEarning >= $check) {
+                $profitAmount = $calculateamount;
+            } else {
+                $profitAmount = $maxEarning - $currentEarning;
+            }
+
+            if ($profitAmount > 0) {
+                $user->ttx += $profitAmount;
+                $user->save();
+
+                Transaction::create([
+                    'trx'        => Str::upper(Str::random(16)),
+                    'amount'     => $profitAmount,
+                    'details'    => 'Your Daily Profit ' . $request->percentage . '% Added Successfully',
+                    'charge'     => 0,
+                    'type'       => '+',
+                    'type_two'   => 5,
+                    'rec_id'     => 0,
+                    'user_id'    => $user->id,
+                    'created_at' => $formattedDate
+                ]);
+            }
+
+            // ================= START LEVEL COMMISSION =================
+
+            $levelProfits = PivortUser::where('user_id', $user->id)->get();
+
+            $levelPercantages = Referral::where('type', 'invest')
+                ->where('status', 1)
+                ->pluck('commission')
+                ->first(); // array
+
+            if (!empty($levelPercantages)) {
+
+                foreach ($levelProfits as $item) {
+
+                    $userReffer = User::where('id', $item->ref_id)
+                        ->where('status', 1)
+                        ->first();
+
+                    if (!$userReffer) {
+                        continue;
                     }
-                    else{
-                        $subammounttt = $user->tx - $user->ttx;
 
-                        if($subammounttt > 0.0){
-                            $user->ttx = $user->ttx + $subammounttt;
-                            $user->update();
-                            Transaction::create([
-                                'trx' => Str::upper(Str::random(16)),
-                                'amount' => $subammounttt,
-                                'details' => 'Your Daily Profit ' . ($request->percentage) . '% Added Successfully',
-                                'charge' => 0,
-                                'type' => '+',
-                                'type_two' => 5,
-                                'rec_id' => 0,
-                                'user_id' => $user->id,
-                                'created_at'=>$formattedDate
-                            ]);
-                        }
+                    // 🔹 Referral total deposit
+                    $referralDeposit = Deposit::where('user_id', $item->ref_id)
+                        ->where('status', 1)
+                        ->sum('amount');
 
+                    if ($referralDeposit <= 0) {
+                        continue;
                     }
-                    //Start Level Commission
-                    $levelProfits = PivortUser::where('user_id', $user->id)->get();
-                    $levelPercantages = Referral::where('type', 'invest')->where('status', 1)->pluck('commission');
-                    if ($levelPercantages->isNotEmpty()) {
-                        foreach ($levelProfits as $item) {
-                            $userReffer = User::where('status',1)->where('id',$item->ref_id)->first();
-                            $deposit = Deposit::where('user_id', $item->ref_id)->sum('amount');
-                            if($deposit!=0) {
-                                //Start Level Deposit Check
-                                $userids = User::where('ref_id', $item->ref_id)->pluck('id');
-                                $hasDeposit = \App\Models\Deposit::whereIn('user_id', $userids)->pluck('user_id')->unique();
-                                $levelPercantages_two = Referral::where('type', 'interest')->where('status', 1)->pluck('commission');
-                                //End Level Deposit Check
-                                if ($hasDeposit->count() >=$levelPercantages_two[0][$item->level - 1] && $userReffer) {
-                                    $userDepositt = $userReffer->tx;
-                                    $profit = $userReffer->ttx;
-                                    $amount = $calculateamount * ($levelPercantages[0][$item->level - 1] / 100);
-                                    $checkk = $profit + $amount;
-                                    if ($userDepositt >= $checkk) {
 
-                                        $userProfit = User::where('id', $item->ref_id)->where('status', 1)->first();
-                                        if ($userProfit) {
-                                            $profitAmount = $calculateamount * ($levelPercantages[0][$item->level - 1] / 100);
+                    // 🔹 Open levels based on deposit
+                    $openLevels = floor($referralDeposit / 100);
+                    $openLevels = min($openLevels, 10);
 
-                                            // Update user balance
-                                            if ($profitAmount > 0.00) {
-                                                $userProfit->ttx = $userProfit->ttx + $profitAmount;
-                                                $userProfit->update();
-
-                                                // Create transaction
-                                                Transaction::create([
-                                                    'trx' => Str::upper(Str::random(16)),
-                                                    'amount' => $profitAmount,
-                                                    'details' => 'Profit added refer by ' . $user->username,
-                                                    'charge' => 0,
-                                                    'type' => '+',
-                                                    'type_two' => 5,
-                                                    'rec_id' => $user->id,
-                                                    'user_id' => $userProfit->id,
-                                                    'created_at'=>$formattedDate
-                                                ]);
-                                            }
-                                        }
-
-                                    } else {
-                                        $userProfit = User::where('id', $item->ref_id)->where('status', 1)->first();
-                                        $subammount = $userProfit->tx - $userProfit->ttx;
-                                        if ($subammount > 0.0) {
-                                            $userProfit->ttx = $userProfit->ttx + $subammount;
-                                            $userProfit->update();
-                                            // Create transaction
-                                            Transaction::create([
-                                                'trx' => Str::upper(Str::random(16)),
-                                                'amount' => $subammount,
-                                                'details' => 'Profit added refer by. ' . $user->username,
-                                                'charge' => 0,
-                                                'type' => '+',
-                                                'type_two' => 5,
-                                                'rec_id' => $user->id,
-                                                'user_id' => $userProfit->id,
-                                                'created_at'=>$formattedDate
-                                            ]);
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                    if ($item->level > $openLevels) {
+                        continue;
                     }
-                    //End Level
 
+                    $levelPercentage = $levelPercantages[$item->level - 1] ?? 0;
+
+                    if ($levelPercentage <= 0) {
+                        continue;
+                    }
+
+                    // 🔹 Commission calculation
+                    $commissionAmount = $calculateamount * ($levelPercentage / 100);
+
+                    if ($commissionAmount <= 0) {
+                        continue;
+                    }
+
+                    // 🔹 Referral earning limit check
+                    $refMax = $userReffer->tx;
+                    $refCurrent = $userReffer->ttx;
+                    $refAllowed = $refMax - $refCurrent;
+
+                    if ($refAllowed <= 0) {
+                        continue;
+                    }
+
+                    if ($commissionAmount > $refAllowed) {
+                        $commissionAmount = $refAllowed;
+                    }
+
+                    // 🔹 Update referral profit
+                    $userReffer->ttx += $commissionAmount;
+                    $userReffer->save();
+
+                    Transaction::create([
+                        'trx'        => Str::upper(Str::random(16)),
+                        'amount'     => $commissionAmount,
+                        'details'    => 'Level ' . $item->level . ' commission from ' . $user->username,
+                        'charge'     => 0,
+                        'type'       => '+',
+                        'type_two'   => 5,
+                        'rec_id'     => $user->id,
+                        'user_id'    => $userReffer->id,
+                        'created_at' => $formattedDate
+                    ]);
                 }
             }
+
+            // ================= END LEVEL COMMISSION =================
         }
-        return back()->with('success', 'Profit Send Successfully');
-
     }
-    public function percentageDelete(Request $request)
-    {
-        $tra = Transaction::where('type','+')->where('type_two',5)->whereDate('created_at',$request->date)->get();
 
-        if($tra) {
-            foreach ($tra as $row) {
-                $user = User::find($row->user_id);
-                $user->ttx = $user->ttx - $row->amount;
-                $user->update();
-                $row->delete();
-            }
-        }
-        return back()->with('success', 'Profit Deleted Successfully');
+    return back()->with('success', 'Profit Send Successfully');
+}
 
-    }
+//     public function percentageStore(Request $request)
+//     {
+//         $dateString = $request->date;
+//         $carbonDate = Carbon::parse($dateString);
+//         $formattedDate = $carbonDate->format('Y-m-d H:i:s');
+//         $users = User::where('status', '=', 1)->where('balance', '>', 1)->get();
+//         if ($users->isNotEmpty()) {
+//             foreach ($users as $user) {
+
+//                 $deposit = Deposit::where('user_id', '=', $user->id)->where('status', '=', 1)->sum('amount');
+//                 if($deposit!=0){
+//                     $calculateamount = $user->balance * ($request->percentage / 100);
+//                     $userDeposit = $user->tx;
+//                     $check = $user->ttx + $calculateamount;
+//                     if ($userDeposit >= $check) {
+// //                        $profit = Transaction::where('user_id', '=', $user->id)->whereIn('type_two', [5, 3])->sum('amount');
+//                         $user->ttx = $user->ttx + $calculateamount;
+//                         $user->update();
+//                         Transaction::create([
+//                             'trx' => Str::upper(Str::random(16)),
+//                             'amount' => $calculateamount,
+//                             'details' => 'Your Daily Profit ' . ($request->percentage) . '% Added Successfully',
+//                             'charge' => 0,
+//                             'type' => '+',
+//                             'type_two' => 5,
+//                             'rec_id' => 0,
+//                             'user_id' => $user->id,
+//                             'created_at'=>$formattedDate
+//                         ]);
+//                     }
+//                     else{
+//                         $subammounttt = $user->tx - $user->ttx;
+
+//                         if($subammounttt > 0.0){
+//                             $user->ttx = $user->ttx + $subammounttt;
+//                             $user->update();
+//                             Transaction::create([
+//                                 'trx' => Str::upper(Str::random(16)),
+//                                 'amount' => $subammounttt,
+//                                 'details' => 'Your Daily Profit ' . ($request->percentage) . '% Added Successfully',
+//                                 'charge' => 0,
+//                                 'type' => '+',
+//                                 'type_two' => 5,
+//                                 'rec_id' => 0,
+//                                 'user_id' => $user->id,
+//                                 'created_at'=>$formattedDate
+//                             ]);
+//                         }
+
+//                     }
+//                     //Start Level Commission
+//                     $levelProfits = PivortUser::where('user_id', $user->id)->get();
+//                     $levelPercantages = Referral::where('type', 'invest')->where('status', 1)->pluck('commission');
+//                     if ($levelPercantages->isNotEmpty()) {
+//                         foreach ($levelProfits as $item) {
+//                             $userReffer = User::where('status',1)->where('id',$item->ref_id)->first();
+//                             $deposit = Deposit::where('user_id', $item->ref_id)->sum('amount');
+//                             if($deposit!=0) {
+//                                 //Start Level Deposit Check
+//                                 $userids = User::where('ref_id', $item->ref_id)->pluck('id');
+//                                 $hasDeposit = \App\Models\Deposit::whereIn('user_id', $userids)->pluck('user_id')->unique();
+//                                 $levelPercantages_two = Referral::where('type', 'interest')->where('status', 1)->pluck('commission');
+//                                 //End Level Deposit Check
+//                                 if ($hasDeposit->count() >=$levelPercantages_two[0][$item->level - 1] && $userReffer) {
+//                                     $userDepositt = $userReffer->tx;
+//                                     $profit = $userReffer->ttx;
+//                                     $amount = $calculateamount * ($levelPercantages[0][$item->level - 1] / 100);
+//                                     $checkk = $profit + $amount;
+//                                     if ($userDepositt >= $checkk) {
+
+//                                         $userProfit = User::where('id', $item->ref_id)->where('status', 1)->first();
+//                                         if ($userProfit) {
+//                                             $profitAmount = $calculateamount * ($levelPercantages[0][$item->level - 1] / 100);
+
+//                                             // Update user balance
+//                                             if ($profitAmount > 0.00) {
+//                                                 $userProfit->ttx = $userProfit->ttx + $profitAmount;
+//                                                 $userProfit->update();
+
+//                                                 // Create transaction
+//                                                 Transaction::create([
+//                                                     'trx' => Str::upper(Str::random(16)),
+//                                                     'amount' => $profitAmount,
+//                                                     'details' => 'Profit added refer by ' . $user->username,
+//                                                     'charge' => 0,
+//                                                     'type' => '+',
+//                                                     'type_two' => 5,
+//                                                     'rec_id' => $user->id,
+//                                                     'user_id' => $userProfit->id,
+//                                                     'created_at'=>$formattedDate
+//                                                 ]);
+//                                             }
+//                                         }
+
+//                                     } else {
+//                                         $userProfit = User::where('id', $item->ref_id)->where('status', 1)->first();
+//                                         $subammount = $userProfit->tx - $userProfit->ttx;
+//                                         if ($subammount > 0.0) {
+//                                             $userProfit->ttx = $userProfit->ttx + $subammount;
+//                                             $userProfit->update();
+//                                             // Create transaction
+//                                             Transaction::create([
+//                                                 'trx' => Str::upper(Str::random(16)),
+//                                                 'amount' => $subammount,
+//                                                 'details' => 'Profit added refer by. ' . $user->username,
+//                                                 'charge' => 0,
+//                                                 'type' => '+',
+//                                                 'type_two' => 5,
+//                                                 'rec_id' => $user->id,
+//                                                 'user_id' => $userProfit->id,
+//                                                 'created_at'=>$formattedDate
+//                                             ]);
+//                                         }
+//                                     }
+//                                 }
+//                             }
+//                         }
+//                     }
+//                     //End Level
+
+//                 }
+//             }
+//         }
+//         return back()->with('success', 'Profit Send Successfully');
+
+//     }
+//     public function percentageDelete(Request $request)
+//     {
+//         $tra = Transaction::where('type','+')->where('type_two',5)->whereDate('created_at',$request->date)->get();
+
+//         if($tra) {
+//             foreach ($tra as $row) {
+//                 $user = User::find($row->user_id);
+//                 $user->ttx = $user->ttx - $row->amount;
+//                 $user->update();
+//                 $row->delete();
+//             }
+//         }
+//         return back()->with('success', 'Profit Deleted Successfully');
+
+//     }
 }

@@ -49,7 +49,7 @@
 
                         <div class="form-group mb-3">
                             <label for=""><?php echo e(__('Amount')); ?></label>
-                            <input type="number"  min="10"  name="amount" id="amount" class="form-control" placeholder="Deposit Amount" required>
+                            <input type="number"  min="50"  name="amount" id="amount" class="form-control" placeholder="Deposit Amount" required>
                         </div>
 
                         <p class="text-center mb-3"><?php echo e(__('Minimum deposit amount 50 USDT')); ?>
@@ -83,7 +83,29 @@
                         </div>
                         <div class="form-group mt-4 mb-3">
                             <label for=""><?php echo e(__('Transaction Id')); ?></label>
-                            <input type="text"    name="btrx_id"  class="form-control" placeholder="Paste Transaction id" required>
+                            <input type="text"
+                                name="btrx_id"
+                                class="form-control <?php $__errorArgs = ['btrx_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                                placeholder="Paste Transaction id"
+                                required>
+
+                            <?php $__errorArgs = ['btrx_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <small class="text-danger"><?php echo e($message); ?></small>
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>
                         <div class="form-group mt-4 mb-3">
                             <div class="file-input-container">

@@ -1,4 +1,104 @@
 
+<style>
+    :root {
+    --dark-1: #121214;
+    --dark-2: #1C1C21;
+    --gold:  #FFC300;
+    --text-light: #EDEDED;
+}
+.d-card {
+    background: linear-gradient(
+        90deg,
+        var(--dark-1) 0%,
+        var(--dark-2) 40%,
+        var(--gold) 100%
+    );
+    border-radius: 18px;
+    color: var(--text-light);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.35s ease;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+}
+
+.d-card p,
+.d-card h4,
+.d-card h5,
+.d-card h6 {
+    color: var(--text-light);
+}
+
+.d-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 45px rgba(255,195,0,0.25);
+}
+.team-card-hover {
+    animation: floatCard 4s ease-in-out infinite;
+    border: 1px solid rgba(255,195,0,0.35);
+}
+
+.team-card-hover::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        120deg,
+        transparent 30%,
+        rgba(255,195,0,0.25),
+        transparent 70%
+    );
+    transform: translateX(-100%);
+    animation: shine 3.5s infinite;
+}
+@keyframes  floatCard {
+    0%   { transform: translateY(0); }
+    50%  { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes  shine {
+    0%   { transform: translateX(-100%); }
+    60%  { transform: translateX(100%); }
+    100% { transform: translateX(100%); }
+}
+.d-card-icon {
+    background: radial-gradient(
+        circle,
+        #FFC300 0%,
+        #b89200 60%,
+        #7a6200 100%
+    );
+    color: #121214;
+    box-shadow: 0 8px 25px rgba(255,195,0,0.45);
+}
+
+.d-card-icon i {
+    font-size: 28px;
+}
+.d-card-amount {
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.d-card-caption {
+    font-size: 14px;
+    opacity: 0.9;
+}
+.user-card {
+    background: linear-gradient(
+        145deg,
+        #121214,
+        #1C1C21
+    );
+    border: 1px solid rgba(255,195,0,0.2);
+}
+
+.user-card hr {
+    border-color: rgba(255,195,0,0.25);
+}
+
+    </style>
 <?php $__env->startSection('content'); ?>
 
     <div class="row g-sm-4 g-3">
@@ -8,7 +108,7 @@
                     <div class="col-xl-12 col-lg-6">
                         <div class="d-card user-card not-hover">
                             <div class="text-center">
-                                <h4 class="d-card-balance mt-xxl-3 mt-2">Dotcoinverse</h4>
+                                <h4 class="d-card-balance mt-xxl-3 mt-2">TradX24</h4>
                             </div>
                         </div>
                     </div>
@@ -116,7 +216,7 @@
                             <div class="col-xl-12 col-lg-6">
                                 <div class="d-card user-card not-hover">
                                     <div class="text-center">
-                                            <h5 class="d-card-balance mt-xxl-3">Dotcoinverse</h5>
+                                            <h5 class="d-card-balance mt-xxl-3">TradX24</h5>
                                     </div>
                                      </div>
                             </div>

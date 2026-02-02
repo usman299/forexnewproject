@@ -39,7 +39,7 @@ class ManageDepositController extends Controller
         if($type == 1){
             $deposit->where('status',1);
         }else{
-            $deposit->where('type', $type);
+            $deposit->where('type', $type)->where('status','!=',1);
         }
 
         $data['deposits'] = $deposit->with('gateway','user')->latest()->paginate( Helper::pagination());
@@ -63,13 +63,15 @@ class ManageDepositController extends Controller
 
     public function accept(Request $request)
     {
-
+    
         $deposit = Deposit::where('trx', $request->trx)->firstOrFail();
         
         $general = Configuration::first();
         $gateway = Gateway::find($deposit->gateway_id);
         $deposit->status = 1;
-        $deposit->save();
+        $deposit->amount = $request->amount;
+        $deposit->total = $request->amount;
+        $deposit->update();
         Transaction::create([
                     'trx' => $deposit->trx,
                     'amount' => $deposit->amount,
@@ -78,10 +80,10 @@ class ManageDepositController extends Controller
                     'type' => '+',
                     'type_two' => 1,
                     'rec_id' => 0,
-                    'user_id' => auth()->id()
+                    'user_id' => $deposit->user->id
                 ]);
         $user = User::find($deposit->user->id);
-       
+
         if($user->tx >$user->ttx){
            $user->balance = $user->balance + $deposit->amount;
            $user->tx =  $user->tx + ($deposit->amount * 3);

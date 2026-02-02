@@ -70,6 +70,12 @@ class DepositController extends Controller
     }
     public function depositStoreTrd(Request $request)
     {
+        $request->validate([
+    'btrx_id' => 'required|string|unique:deposits,btrx_id',
+], [
+    'btrx_id.unique' => 'This Transaction ID already exists.',
+]);
+
         // dd($request->all());
         if ($request->has('payment_proof')) {
             $filename = Helper::saveImage($request->payment_proof, Helper::filePath('admin'));

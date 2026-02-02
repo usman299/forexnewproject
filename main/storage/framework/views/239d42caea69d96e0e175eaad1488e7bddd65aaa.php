@@ -162,7 +162,7 @@
                            data-url="<?php echo e(route('admin.deposit.accept', $manual->trx)); ?>">
                             <i class="fas fa-check"></i>
                         </a>
-
+                        
                         <a class="btn btn-sm btn-outline-danger reject"
                            data-url="<?php echo e(route('admin.deposit.reject', $manual->trx)); ?>">
                             <i class="fas fa-times"></i>
@@ -190,32 +190,47 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="accept" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+   <!-- Accept Modal -->
+<div class="modal fade" id="accept" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form action="" method="post" id="acceptForm">
+            <?php echo csrf_field(); ?>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><?php echo e(__('Payment Accept')); ?></h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
 
-            <form action="" method="post">
-                <?php echo csrf_field(); ?>
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title"><?php echo e(__('Payment Accept')); ?></h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="container-fluid">
-                            <p><?php echo e(__('Are you sure to Accept this Payment request')); ?>?</p>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal"><?php echo e(__('Close')); ?></button>
-                        <button type="submit" class="btn btn-primary"><?php echo e(__('Accept')); ?></button>
+                <div class="modal-body">
+                    <p><?php echo e(__('Are you sure to accept this payment request?')); ?></p>
 
+                    <div class="form-group">
+                        <label><?php echo e(__('Enter Accepted Amount')); ?></label>
+                        <input type="number"
+                               name="amount"
+                               class="form-control"
+                               placeholder="Enter amount"
+                               required>
                     </div>
                 </div>
-            </form>
-        </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">
+                        <?php echo e(__('Close')); ?>
+
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <?php echo e(__('Accept')); ?>
+
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
+</div>
+
 
     <!-- Modal -->
     <div class="modal fade" id="reject" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
@@ -336,6 +351,14 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
+<script>
+    $(document).on('click', '.accept', function () {
+        let url = $(this).data('url');
+
+        $('#acceptForm').attr('action', url);
+        $('#accept').modal('show');
+    });
+</script>
 
 <?php $__env->stopPush(); ?>
 

@@ -155,7 +155,7 @@
                            data-url="{{ route('admin.deposit.accept', $manual->trx) }}">
                             <i class="fas fa-check"></i>
                         </a>
-
+                        
                         <a class="btn btn-sm btn-outline-danger reject"
                            data-url="{{ route('admin.deposit.reject', $manual->trx) }}">
                             <i class="fas fa-times"></i>
@@ -182,32 +182,45 @@
 
 
     <!-- Modal -->
-    <div class="modal fade" id="accept" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+   <!-- Accept Modal -->
+<div class="modal fade" id="accept" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form action="" method="post" id="acceptForm">
+            @csrf
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ __('Payment Accept') }}</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
 
-            <form action="" method="post">
-                @csrf
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">{{ __('Payment Accept') }}</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="container-fluid">
-                            <p>{{ __('Are you sure to Accept this Payment request') }}?</p>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">{{ __('Close') }}</button>
-                        <button type="submit" class="btn btn-primary">{{ __('Accept') }}</button>
+                <div class="modal-body">
+                    <p>{{ __('Are you sure to accept this payment request?') }}</p>
 
+                    <div class="form-group">
+                        <label>{{ __('Enter Accepted Amount') }}</label>
+                        <input type="number"
+                               name="amount"
+                               class="form-control"
+                               placeholder="Enter amount"
+                               required>
                     </div>
                 </div>
-            </form>
-        </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">
+                        {{ __('Close') }}
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        {{ __('Accept') }}
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
+</div>
+
 
     <!-- Modal -->
     <div class="modal fade" id="reject" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
@@ -328,5 +341,13 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
+<script>
+    $(document).on('click', '.accept', function () {
+        let url = $(this).data('url');
+
+        $('#acceptForm').attr('action', url);
+        $('#accept').modal('show');
+    });
+</script>
 
 @endpush

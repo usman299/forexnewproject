@@ -49,7 +49,7 @@
 
                         <div class="form-group mb-3">
                             <label for="">{{ __('Amount') }}</label>
-                            <input type="number"  min="10"  name="amount" id="amount" class="form-control" placeholder="Deposit Amount" required>
+                            <input type="number"  min="50"  name="amount" id="amount" class="form-control" placeholder="Deposit Amount" required>
                         </div>
 
                         <p class="text-center mb-3">{{ __('Minimum deposit amount 50 USDT') }}
@@ -81,7 +81,15 @@
                         </div>
                         <div class="form-group mt-4 mb-3">
                             <label for="">{{ __('Transaction Id') }}</label>
-                            <input type="text"    name="btrx_id"  class="form-control" placeholder="Paste Transaction id" required>
+                            <input type="text"
+                                name="btrx_id"
+                                class="form-control @error('btrx_id') is-invalid @enderror"
+                                placeholder="Paste Transaction id"
+                                required>
+
+                            @error('btrx_id')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
                         <div class="form-group mt-4 mb-3">
                             <div class="file-input-container">
