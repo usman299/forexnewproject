@@ -41,6 +41,7 @@ class UserDashboardService
         $data['myTeam'] = PivortUser::where('ref_id',$user->id)->count();
         $direct_user = PivortUser::where('ref_id','=',$user->id)->where('level',1)->pluck('user_id');
         $data['directReward'] = Transaction::where('user_id','=',$user->id)->WhereIn('rec_id',$direct_user)->where('type_two',3)->sum('amount');
+
         $data['teamReward'] = Transaction::where('user_id','=',$user->id)->where('rec_id','!=',0)->where('type_two',5)->sum('amount');
 
         $data['totalReward'] = $data['directReward'] + $data['staking_reward'] + $data['teamReward'];

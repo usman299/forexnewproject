@@ -9,7 +9,7 @@
 @endphp
 
 @if(request()->is('/'))
-<div class="sp_brand_wrapper">
+<!-- <div class="sp_brand_wrapper">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -26,7 +26,8 @@
             </div>
         </div>
     </div>
-</div><!-- sp_brand_wrapper end -->
+</div> -->
+<!-- sp_brand_wrapper end -->
 @endif
 
 <!-- footer section start -->

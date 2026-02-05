@@ -101,7 +101,7 @@ class DepositController extends Controller
 
         ]);
       
-        return back()->with('success', 'Deposit request submitted! Admin will review and amount will be added once confirmed.');
+        return back()->with('success', 'Deposit completed successfully!');
     }
     public function depositStore(Request $request)
     {

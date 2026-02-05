@@ -28,7 +28,7 @@
                         <span class="text-white"><?php echo e(Config::formatter(auth()->user()->balance)); ?></span></p>
                 </div>
                 <div class="card-body">
-                    <form action="<?php echo e(route('user.deposit.store.submit')); ?>" method="post" enctype="multipart/form-data">
+                    <form id="depositForm"  action="<?php echo e(route('user.deposit.store.submit')); ?>" method="post" enctype="multipart/form-data">
                         <?php echo csrf_field(); ?>
                         <div class="form-group mb-4">
                             <label for="" class="mb-3 mt-2">Deposit Crypto</label>
@@ -115,7 +115,7 @@ unset($__errorArgs, $__bag); ?>
                         </div>
 
 
-                        <button type="submit" class="btn sp_theme_btn w-100"  ><?php echo e(__('Deposit Money')); ?></button>
+                        <button type="submit" id="depositBtn" class="btn sp_theme_btn w-100"  ><?php echo e(__('Deposit Money')); ?></button>
                     </form>
                 </div>
 
@@ -125,6 +125,8 @@ unset($__errorArgs, $__bag); ?>
 
     <!-- Include clipboard.js from a CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+   
+
     <script>
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -154,7 +156,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 </script>
+ <script>
+document.getElementById('depositForm').addEventListener('submit', function () {
+    const btn = document.getElementById('depositBtn');
 
+    btn.disabled = true;
+    btn.innerText = 'Processing...';
+});
+</script>
     <script>
         
         // // Initialize Clipboard.js

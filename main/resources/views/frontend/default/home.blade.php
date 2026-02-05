@@ -7,9 +7,10 @@
 
 {{--<spline-viewer url="https://prod.spline.design/LjA6dMVxgtap2bFJ/scene.splinecode"></spline-viewer>--}}
 {{--{{dd(Config::cssLib('frontend', 'lib/bootstrap.min.css'))}}--}}
-    @foreach ($page->widgets as $section)
-
+    @foreach ($page->widgets as $key => $section)
+         @if($key+1!=3)
        <?= Section::render($section->sections) ?>
+       @endif
 
     @endforeach
 {{--<section class="team-section sp_pt_120 sp_pb_120">--}}

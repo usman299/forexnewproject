@@ -1,5 +1,12 @@
 @extends(Config::theme() . 'layout.auth')
 @section('content')
+<h3>Level {{ $level }}</h3>
+
+@if(!empty($locked) && $locked)
+    <div class="alert alert-warning">
+        This level is locked. Deposit more to unlock it.
+    </div>
+@else
     <div class="row g-sm-4 g-3">
         @forelse ($users as $user)
 
@@ -38,4 +45,7 @@
                 </div>
             @endif
     </div>
+    
+    {{ $users->links() }} <!-- pagination -->
+@endif
 @endsection

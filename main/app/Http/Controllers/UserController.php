@@ -17,7 +17,7 @@ use App\Services\UserProfileService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     protected $profile, $dashboard, $config;
@@ -102,55 +102,132 @@ class UserController extends Controller
         }
         return view(Helper::theme() . 'user.team.index')->with($data);
     }
+ 
+public function level()
+{
+    $user = Auth::user();
 
-    public function level()
-    {
-        $user = auth()->user();
-        $data = [];
-        $data['myTeamm'] = PivortUser::where('ref_id',$user->id)->pluck('user_id');
-        $data['myTeamTwo'] = PivortUser::where(function ($query) use ($data, $user) {
-            $query->where('ref_id', $user->id)
-                ->orWhereIn('ref_id', $data['myTeamm']);
-        });
+    // 🔹 Total deposit of logged-in user
+    $depositAmount = Deposit::where('user_id', $user->id)->sum('amount');
 
-        $levelCount = Referral::where('status', 1)->where('type', 'interest')->first();
+    // 🔹 Level thresholds in USD
+    $levelThresholds = [
+        1 => 100,
+        2 => 200,
+        3 => 300,
+        4 => 400,
+        5 => 500,
+        6 => 600,
+        7 => 700,
+        8 => 800,
+        9 => 900,
+        10 => 1000,
+    ];
 
-        for ($level = 1; $level <= 10; $level++) {
-            $levelUserIds = PivortUser::where('ref_id', '=', $user->id)->where('level', $level)->pluck('user_id');
-//            $data["level{$level}"] = Transaction::where('user_id', '=', $user->id)
-//                ->whereIn('rec_id', $levelUserIds)
-//                ->where('type_two', [3, 5])
-//                ->sum('amount');
-            $data["level{$level}"] = Deposit::WhereIn('user_id',$levelUserIds)->sum('amount');
-
-            $userids = User::where('ref_id', $user->id)->pluck('id');
-            $hasDeposit = \App\Models\Deposit::whereIn('user_id', $userids)->pluck('user_id')->unique();
-
-            if ($levelCount && isset($levelCount->commission[$level-1])) {
-                $count = User::where('ref_id', $user->id)->count();
-                $threshold = $levelCount->commission[$level-1];
-                $status = ($hasDeposit->count()  >= intval($threshold)) ? 'Active' : 'Inactive';
-            }
-            else{
-                $status = 'Inactive';
-            }
-            $data["count{$level}"] = $status;
-        }
-        for ($level = 1; $level <= 10; $level++) {
-            $data["user{$level}"] = PivortUser::where('ref_id', $user->id)->where('level', $level)->count();
-        }
-
-        return view(Helper::theme() . 'user.team.level')->with($data);
+    // 🔹 Prepare levels array for Blade
+    $levels = [];
+    foreach ($levelThresholds as $level => $requiredAmount) {
+        $levels[$level] = [
+            'status' => ($depositAmount >= $requiredAmount) ? 'Active' : 'Inactive',
+            'threshold' => $requiredAmount,
+        ];
     }
 
-    public function singlelevelUser($level)
-    {
-        $user = auth()->user();
-        $user_ids = PivortUser::where('ref_id', $user->id)->where('level', $level)->pluck('user_id');
-        $data['users'] = User::WhereIn('id', $user_ids)->latest()->paginate(12);
+    // 🔹 Pass to view
+    return view(Helper::theme() . 'user.team.level', compact('levels', 'depositAmount'));
+}
+    
+public function singlelevelUser($level)
+{
+    $user = auth()->user();
+
+    // 🔹 Total deposit of logged-in user
+    $totalDeposit = \App\Models\Deposit::where('user_id', $user->id)->sum('amount');
+
+    // 🔹 Level thresholds
+    $levelThresholds = [
+        1 => 100,
+        2 => 200,
+        3 => 300,
+        4 => 400,
+        5 => 500,
+        6 => 600,
+        7 => 700,
+        8 => 800,
+        9 => 900,
+        10 => 1000,
+    ];
+
+    // 🔹 Check if this level is unlocked
+    if (!isset($levelThresholds[$level]) || $totalDeposit < $levelThresholds[$level]) {
+        // Level not unlocked yet, return empty list
+        $data['users'] = collect(); // empty collection
         $data['level'] = $level;
+        $data['locked'] = true; // optional flag for blade
         return view(Helper::theme() . 'user.team.user')->with($data);
     }
+
+    // 🔹 Level unlocked → fetch users from pivot table
+    $user_ids = \App\Models\PivortUser::where('ref_id', $user->id)
+        ->where('level', $level)
+        ->pluck('user_id');
+
+    $data['users'] = \App\Models\User::whereIn('id', $user_ids)->latest()->paginate(12);
+    $data['level'] = $level;
+    $data['locked'] = false; // optional flag for blade
+
+    return view(Helper::theme() . 'user.team.user')->with($data);
+}
+
+
+//     public function level()
+//     {
+//         $user = auth()->user();
+//         $data = [];
+//         $data['myTeamm'] = PivortUser::where('ref_id',$user->id)->pluck('user_id');
+//         $data['myTeamTwo'] = PivortUser::where(function ($query) use ($data, $user) {
+//             $query->where('ref_id', $user->id)
+//                 ->orWhereIn('ref_id', $data['myTeamm']);
+//         });
+
+//         $levelCount = Referral::where('status', 1)->where('type', 'interest')->first();
+
+//         for ($level = 1; $level <= 10; $level++) {
+//             $levelUserIds = PivortUser::where('ref_id', '=', $user->id)->where('level', $level)->pluck('user_id');
+// //            $data["level{$level}"] = Transaction::where('user_id', '=', $user->id)
+// //                ->whereIn('rec_id', $levelUserIds)
+// //                ->where('type_two', [3, 5])
+// //                ->sum('amount');
+//             $data["level{$level}"] = Deposit::WhereIn('user_id',$levelUserIds)->sum('amount');
+
+//             $userids = User::where('ref_id', $user->id)->pluck('id');
+//             $hasDeposit = \App\Models\Deposit::whereIn('user_id', $userids)->pluck('user_id')->unique();
+
+//             if ($levelCount && isset($levelCount->commission[$level-1])) {
+//                 $count = User::where('ref_id', $user->id)->count();
+//                 $threshold = $levelCount->commission[$level-1];
+//                 $status = ($hasDeposit->count()  >= intval($threshold)) ? 'Active' : 'Inactive';
+//             }
+//             else{
+//                 $status = 'Inactive';
+//             }
+//             $data["count{$level}"] = $status;
+//         }
+//         for ($level = 1; $level <= 10; $level++) {
+//             $data["user{$level}"] = PivortUser::where('ref_id', $user->id)->where('level', $level)->count();
+//         }
+
+//         return view(Helper::theme() . 'user.team.level')->with($data);
+//     }
+
+    // public function singlelevelUser($level)
+    // {
+    //     $user = auth()->user();
+    //     $user_ids = PivortUser::where('ref_id', $user->id)->where('level', $level)->pluck('user_id');
+    //     $data['users'] = User::WhereIn('id', $user_ids)->latest()->paginate(12);
+    //     $data['level'] = $level;
+    //     return view(Helper::theme() . 'user.team.user')->with($data);
+    // }
 
     public function statistics()
     {

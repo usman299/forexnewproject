@@ -127,53 +127,56 @@
 <!-- mobile bottom menu start -->
 <div class="mobile-bottom-menu-wrapper">
     <ul class="mobile-bottom-menu">
-        <li>
-            <a id="backButton"  >
-                <i class="fas fa-exchange-alt"></i>
-                <span><?php echo e(__('Back')); ?></span>
-            </a>
-        </li>
-        <li>
+         <li>
             <a href="<?php echo e(route('user.dashboard')); ?>" class="<?php echo e(Config::activeMenu(route('user.dashboard'))); ?>">
                 <i class="fas fa-home"></i>
                 <span><?php echo e(__('Home')); ?></span>
             </a>
         </li>
-
-        <li>
+ <li>
             <a href="<?php echo e(route('user.deposit.create')); ?>" class="<?php echo e(Config::activeMenu(route('user.deposit.create'))); ?>">
                 <i class="fas fa-wallet"></i>
                 <span><?php echo e(__('Deposit')); ?></span>
             </a>
         </li>
-
-
-
-
-
-
-
-
-        <li>
-            <a href="<?php echo e(route('user.team')); ?>"
-               class="<?php echo e(Config::activeMenu(route('user.team'))); ?>">
-                <i class="fas fa-users"></i>
-                <span><?php echo e(__('Teams')); ?></span>
-            </a>
-        </li>
-        <li>
+         <li>
             <a href="<?php echo e(route('user.withdraw.create')); ?>" class="<?php echo e(Config::activeMenu(route('user.withdraw.create'))); ?>">
                 <i class="fas fa-hand-holding-usd"></i>
                 <span><?php echo e(__('Withdraw')); ?></span>
             </a>
         </li>
-
+ <li>
+            <a href="<?php echo e(route('user.team')); ?>"
+               class="<?php echo e(Config::activeMenu(route('user.team'))); ?>">
+                <i class="fas fa-users"></i>
+                <span><?php echo e(__('Team')); ?></span>
+            </a>
+        </li>
         <li class="sidebar-open-btn">
             <a href="#0" class="">
                 <i class="fas fa-bars"></i>
                 <span><?php echo e(__('Menu')); ?></span>
             </a>
         </li>
+        <li>
+            <a id="backButton"  >
+                <i class="fas fa-exchange-alt"></i>
+                <span><?php echo e(__('Back')); ?></span>
+            </a>
+        </li>
+       
+       
+
+
+
+
+
+
+
+
+       
+       
+        
     </ul>
 </div>
 <!-- mobile bottom menu end -->

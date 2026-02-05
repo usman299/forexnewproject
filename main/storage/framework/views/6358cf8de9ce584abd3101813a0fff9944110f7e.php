@@ -155,7 +155,7 @@
                 </li>
 
 
-            <!-- <?php if(auth()->guard('admin')->user()->can('manage-theme')): ?>
+            <?php if(auth()->guard('admin')->user()->can('manage-theme')): ?>
                 <li><a href="<?php echo e(route('admin.manage.theme')); ?>" aria-expanded="false"><i
                             data-feather="layers"></i><span class="nav-text"><?php echo e(__('Manage Theme')); ?></span></a>
                 </li>
@@ -184,7 +184,7 @@
                 <li><a href="<?php echo e(route('admin.language.index')); ?>" aria-expanded="false"><i
                             data-feather="globe"></i><span class="nav-text"><?php echo e(__('Manage Language')); ?></span></a>
                 </li>
-            <?php endif; ?> -->
+            <?php endif; ?>
 
             <!-- <?php if(auth()->guard('admin')->user()->can('manage-role') ||
                     auth()->guard('admin')->user()->can('manage-admin')): ?>

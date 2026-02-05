@@ -5,9 +5,10 @@
 
 
 
-    <?php $__currentLoopData = $page->widgets; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $section): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-
+    <?php $__currentLoopData = $page->widgets; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $section): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+         <?php if($key+1!=3): ?>
        <?= Section::render($section->sections) ?>
+       <?php endif; ?>
 
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 

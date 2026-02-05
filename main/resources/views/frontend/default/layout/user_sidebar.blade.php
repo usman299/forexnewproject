@@ -127,25 +127,45 @@
 <!-- mobile bottom menu start -->
 <div class="mobile-bottom-menu-wrapper">
     <ul class="mobile-bottom-menu">
+         <li>
+            <a href="{{ route('user.dashboard') }}" class="{{ Config::activeMenu(route('user.dashboard')) }}">
+                <i class="fas fa-home"></i>
+                <span>{{ __('Home') }}</span>
+            </a>
+        </li>
+ <li>
+            <a href="{{ route('user.deposit.create') }}" class="{{ Config::activeMenu(route('user.deposit.create')) }}">
+                <i class="fas fa-wallet"></i>
+                <span>{{ __('Deposit') }}</span>
+            </a>
+        </li>
+         <li>
+            <a href="{{ route('user.withdraw.create') }}" class="{{ Config::activeMenu(route('user.withdraw.create')) }}">
+                <i class="fas fa-hand-holding-usd"></i>
+                <span>{{ __('Withdraw') }}</span>
+            </a>
+        </li>
+ <li>
+            <a href="{{ route('user.team') }}"
+               class="{{ Config::activeMenu(route('user.team')) }}">
+                <i class="fas fa-users"></i>
+                <span>{{ __('Team') }}</span>
+            </a>
+        </li>
+        <li class="sidebar-open-btn">
+            <a href="#0" class="">
+                <i class="fas fa-bars"></i>
+                <span>{{ __('Menu') }}</span>
+            </a>
+        </li>
         <li>
             <a id="backButton"  >
                 <i class="fas fa-exchange-alt"></i>
                 <span>{{ __('Back') }}</span>
             </a>
         </li>
-        <li>
-            <a href="{{ route('user.dashboard') }}" class="{{ Config::activeMenu(route('user.dashboard')) }}">
-                <i class="fas fa-home"></i>
-                <span>{{ __('Home') }}</span>
-            </a>
-        </li>
-
-        <li>
-            <a href="{{ route('user.deposit.create') }}" class="{{ Config::activeMenu(route('user.deposit.create')) }}">
-                <i class="fas fa-wallet"></i>
-                <span>{{ __('Deposit') }}</span>
-            </a>
-        </li>
+       
+       
 
 {{--        <li>--}}
 {{--            <a href="{{ route('user.transfer_money') }}"--}}
@@ -154,26 +174,9 @@
 {{--                <span>{{ __('Send Money') }}</span>--}}
 {{--            </a>--}}
 {{--        </li>--}}
-        <li>
-            <a href="{{ route('user.team') }}"
-               class="{{ Config::activeMenu(route('user.team')) }}">
-                <i class="fas fa-users"></i>
-                <span>{{ __('Teams') }}</span>
-            </a>
-        </li>
-        <li>
-            <a href="{{ route('user.withdraw.create') }}" class="{{ Config::activeMenu(route('user.withdraw.create')) }}">
-                <i class="fas fa-hand-holding-usd"></i>
-                <span>{{ __('Withdraw') }}</span>
-            </a>
-        </li>
-
-        <li class="sidebar-open-btn">
-            <a href="#0" class="">
-                <i class="fas fa-bars"></i>
-                <span>{{ __('Menu') }}</span>
-            </a>
-        </li>
+       
+       
+        
     </ul>
 </div>
 <!-- mobile bottom menu end -->

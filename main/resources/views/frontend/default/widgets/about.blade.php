@@ -8,7 +8,7 @@
                 <div class="about-thumb paroller" data-paroller-factor="0.15" data-paroller-factor-xs="0.0"
                     data-paroller-factor-sm="0.0" data-paroller-factor-md="0.0" data-paroller-type="foreground"
                     data-paroller-direction="horizontal">
-                    <img src="{{ Config::getFile('benefits', '696de2fddbf611768809213.png') }}" alt="image">
+                    <img src="{{ Config::getFile('benefits', '698470429a1b41770287170.png') }}" alt="image">
 {{--                    <img src="{{ Config::getFile('about', $content->image_one ?? '') }}" alt="image">--}}
                 </div>
             </div>

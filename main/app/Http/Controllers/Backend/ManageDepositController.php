@@ -12,6 +12,7 @@ use App\Models\Transaction;
 use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ManageDepositController extends Controller
 {
@@ -97,9 +98,9 @@ class ManageDepositController extends Controller
 
     //    <------------->
        if($user->ref_id!=0){
-           $deposit = Deposit::where('user_id',$user->ref_id)->sum('amount');
+           $depositAmount = Deposit::where('user_id',$user->ref_id)->sum('amount');
            $reffer_user = User::where('status', '=', 1)->where('id', $user->ref_id)->first();
-           if($deposit!=0) {
+           if($depositAmount!=0) {
                $userDeposit = $reffer_user->tx;
 //                $profit = Transaction::where('user_id', '=', $user->id)->whereIn('type_two', [5, 3])->sum('amount');
                $calculateamount  = $deposit->amount * 0.07;
@@ -115,7 +116,7 @@ class ManageDepositController extends Controller
                        'charge' => 0,
                        'type' => '+',
                        'type_two' => 3,
-                       'rec_id' => auth()->id(),
+                       'rec_id' => $user->id,
                        'user_id' => $reffer_user->id,
                    ]);
                }
@@ -132,7 +133,7 @@ class ManageDepositController extends Controller
                            'charge' => 0,
                            'type' => '+',
                            'type_two' => 3,
-                           'rec_id' => auth()->id(),
+                           'rec_id' => $user->id,
                            'user_id' => $reffer_user->id,
                        ]);
 

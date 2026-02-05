@@ -337,6 +337,7 @@ body, .dashboard-section {
             <div class="neo-icon">
                 <i class="las la-chart-bar"></i>
             </div>
+           
             <img class="card-wave" src="{{ Config::getFile('logo', 'wave.png', true) }}" alt="image">
             <h4 class="neo-amount">{{ Config::formatter($directReward) }}</h4>
             <p class="neo-title">Direct Reward</p>
