@@ -108,7 +108,9 @@ public function level()
     $user = Auth::user();
 
     // 🔹 Total deposit of logged-in user
-    $depositAmount = Deposit::where('user_id', $user->id)->sum('amount');
+   $depositAmount = Deposit::where('user_id', $user->id)
+    ->where('status', 1)
+    ->sum('amount');
 
     // 🔹 Level thresholds in USD
     $levelThresholds = [
@@ -142,7 +144,7 @@ public function singlelevelUser($level)
     $user = auth()->user();
 
     // 🔹 Total deposit of logged-in user
-    $totalDeposit = \App\Models\Deposit::where('user_id', $user->id)->sum('amount');
+    $totalDeposit = \App\Models\Deposit::where('user_id', $user->id)->where('status', 1)->sum('amount');
 
     // 🔹 Level thresholds
     $levelThresholds = [

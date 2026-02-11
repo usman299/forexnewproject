@@ -58,9 +58,20 @@
                 </td>
 
                 {{-- Address column --}}
-                <td data-caption="Address" style="max-width:200px; word-break:break-all;">
-                    {{ $deposit->random_address ?? '-' }}
-                </td>
+               <td data-caption="Address">
+    @if($deposit->random_address)
+        <span
+            style="cursor:pointer; color:blue; text-decoration:underline;"
+            onclick="copyWithSwal('{{ $deposit->random_address }}')"
+            title="Click to copy"
+        >
+            {{ \Illuminate\Support\Str::limit($deposit->random_address, 12, '...') }}
+        </span>
+    @else
+        -
+    @endif
+</td>
+
 
                 <td data-caption="Amount">
                     {{ Config::formatter($deposit->amount) }}
@@ -129,4 +140,26 @@
         </div>
 
     </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+function copyWithSwal(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        Swal.fire({
+            icon: 'success',
+            title: 'Copied!',
+            text: 'Address copied to clipboard',
+            timer: 1500,
+            showConfirmButton: false
+        });
+    }).catch(() => {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops!',
+            text: 'Copy failed'
+        });
+    });
+}
+</script>
+
 @endsection

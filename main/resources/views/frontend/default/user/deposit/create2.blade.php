@@ -150,24 +150,27 @@ document.getElementById('depositForm').addEventListener('submit', function () {
 </script>
     <script>
         
-        // // Initialize Clipboard.js
-        // var clipboard = new ClipboardJS('#copyButton');
+        // Initialize Clipboard.js
+        var clipboard = new ClipboardJS('#copyButton');
 
-        // // Show a message when the text is copied
-        // clipboard.on('success', function (e) {
-        //     Swal.fire({
-        //         position: "top-end",
-        //         icon: "success",
-        //         title: "Address Copied Successfully",
-        //         showConfirmButton: false,
-        //         timer: 1500
-        //     });
-        //     e.clearSelection(); // Clear the selection after copying
-        // });
+        // Show a message when the text is copied
+       clipboard.on('success', function (e) {
+    Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Address Copied Successfully",
+        showConfirmButton: false,
+        timer: 1500,
+        background: "linear-gradient(90deg, #121214 0%, #1C1C21 35%, #3BB143 70%, #FFC300 100%)",
+        color: "#ffffff" // text color
+    });
+    e.clearSelection(); // Clear the selection after copying
+});
 
-        // // Handle errors
-        // clipboard.on('error', function (e) {
-        //     console.error('Unable to copy text.');
-        // });
+
+        // Handle errors
+        clipboard.on('error', function (e) {
+            console.error('Unable to copy text.');
+        });
     </script>
 @endsection

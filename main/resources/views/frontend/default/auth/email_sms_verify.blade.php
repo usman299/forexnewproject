@@ -25,6 +25,11 @@
                 <input type="text" name="code" class="form-control" placeholder="{{ __('Enter Verification Code') }}">
                 <i class="las la-envelope"></i>
                 <a href="{{ route('user.resend.password') }}" class="sp_site_color my-class">{{ __('Resend Code') }}</a>
+<!--                <p>Please enter this OTP. (System email issue)</p>-->
+<!--<a href="#" class="sp_site_color my-class">-->
+<!--    {{ auth()->user()->email_verification_code ?? '-' }}-->
+<!--</a>-->
+
             </div>
 
             @if (Config::config()->allow_recaptcha)

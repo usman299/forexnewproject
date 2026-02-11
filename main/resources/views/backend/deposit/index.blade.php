@@ -212,9 +212,11 @@
                     <button type="button" class="btn btn-danger" data-dismiss="modal">
                         {{ __('Close') }}
                     </button>
-                    <button type="submit" class="btn btn-primary">
-                        {{ __('Accept') }}
-                    </button>
+                   
+                    <button type="submit" class="btn btn-primary" id="acceptBtn">
+                  {{ __('Accept') }}
+                   </button>
+
                 </div>
             </div>
         </form>
@@ -349,5 +351,13 @@ document.addEventListener('DOMContentLoaded', function () {
         $('#accept').modal('show');
     });
 </script>
+<script>
+$('#acceptForm').on('submit', function () {
+    $('#acceptBtn')
+        .prop('disabled', true)
+        .text('Processing...');
+});
+</script>
+
 
 @endpush

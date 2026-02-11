@@ -54,15 +54,15 @@
 {{--                                        <td data-caption="{{ __('Method Name') }}">--}}
 {{--                                            Metamask  USDT(BEP20)</td>--}}
                                         <td data-caption="{{ __('Withdraw Amount') }}">
-                                            {{ number_format($withdrawlog->withdraw_amount, 2) }}
+                                            {{ number_format($withdrawlog->withdraw_amount, 2) }}USD
                                         </td>
                                         <td data-caption="{{ __('Charge') }}">
-                                            {{ number_format($withdrawlog->withdraw_charge, 2) }}
+                                            {{ number_format($withdrawlog->withdraw_charge, 2) }}USD
                                         </td>
                                         <td>
 
 
-                                            {{ number_format($withdrawlog->total, 2) }}
+                                            {{ number_format($withdrawlog->total, 2) }} USD
 
                                         </td>
 {{--                                        <td data-caption="{{ __('Charge Type') }}">--}}
@@ -140,10 +140,15 @@
                 let html = `
 
                     <ul class="list-group">
-                            <li class="list-group-item  d-flex justify-content-between align-items-center">
-                               {{ __('Withdraw address') }}
-                                <span>${$(this).data('withdraw').proof}</span>
+                            
+                           <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ __('Withdraw address') }}
+                            <span id="walletAddress"
+                                  style="cursor:pointer"
+                                  title="Click to copy"></span>
                             </li>
+
+
                             <li class="list-group-item  d-flex justify-content-between align-items-center">
                                 {{ __('Withdraw Amount') }}
                                 <span>${$(this).data('withdraw').total} USD</span>
@@ -173,4 +178,67 @@
 
         })
     </script>
+    <script>
+$(document).on('click', '[data-withdraw]', function () {
+
+    let address = $(this).data('withdraw').proof;
+
+    // limit text to 25 chars
+    let shortAddress = address.length > 25
+        ? address.substring(0, 22) + '...'
+        : address;
+
+    // show in UI
+    $('#walletAddress')
+        .text(shortAddress)
+        .attr('data-full', address);
+});
+
+// copy on click
+$('#walletAddress').on('click', function () {
+    let fullAddress = $(this).attr('data-full');
+
+    navigator.clipboard.writeText(fullAddress).then(() => {
+        alert('Wallet address copied!');
+    });
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+$(document).on('click', '[data-withdraw]', function () {
+
+    let address = $(this).data('withdraw').proof;
+
+    let shortAddress = address.length > 25
+        ? address.substring(0, 25) + '...'
+        : address;
+
+    $('#walletAddress')
+        .text(shortAddress)
+        .attr('data-full', address);
+});
+
+$('#walletAddress').on('click', function () {
+
+    let fullAddress = $(this).attr('data-full');
+
+    // Fallback-safe copy method
+    let tempInput = document.createElement('input');
+    tempInput.value = fullAddress;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand('copy');
+    document.body.removeChild(tempInput);
+
+    Swal.fire({
+        icon: 'success',
+        title: 'Copied!',
+        text: 'Wallet address copied to clipboard',
+        timer: 1500,
+        showConfirmButton: false
+    });
+});
+</script>
+
 @endpush
