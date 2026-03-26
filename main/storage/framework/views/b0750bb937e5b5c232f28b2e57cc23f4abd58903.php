@@ -48,10 +48,10 @@
 
                         <div class="form-group mb-3">
                             <label for=""><?php echo e(__('Amount')); ?></label>
-                            <input type="number"  min="50"  name="amount" id="amount" class="form-control" placeholder="Deposit Amount" required>
+                            <input type="number"  min="25"  name="amount" id="amount" class="form-control" placeholder="Deposit Amount" required>
                         </div>
 
-                        <p class="text-center mb-3"><?php echo e(__('Minimum deposit amount 50 USDT')); ?>
+                        <p class="text-center mb-3"><?php echo e(__('Minimum deposit amount 25 USDT')); ?>
 
                         </p>
                       
