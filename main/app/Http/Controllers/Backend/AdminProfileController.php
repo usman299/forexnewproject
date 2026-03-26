@@ -399,19 +399,19 @@ class AdminProfileController extends Controller
 //         return back()->with('success', 'Profit Send Successfully');
 
 //     }
-//     public function percentageDelete(Request $request)
-//     {
-//         $tra = Transaction::where('type','+')->where('type_two',5)->whereDate('created_at',$request->date)->get();
+    public function percentageDelete(Request $request)
+    {
+        $tra = Transaction::where('type','+')->where('type_two',5)->whereDate('created_at',$request->date)->get();
 
-//         if($tra) {
-//             foreach ($tra as $row) {
-//                 $user = User::find($row->user_id);
-//                 $user->ttx = $user->ttx - $row->amount;
-//                 $user->update();
-//                 $row->delete();
-//             }
-//         }
-//         return back()->with('success', 'Profit Deleted Successfully');
+        if($tra) {
+            foreach ($tra as $row) {
+                $user = User::find($row->user_id);
+                $user->ttx = $user->ttx - $row->amount;
+                $user->update();
+                $row->delete();
+            }
+        }
+        return back()->with('success', 'Profit Deleted Successfully');
 
-//     }
+    }
 }

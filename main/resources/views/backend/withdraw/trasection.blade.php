@@ -19,10 +19,10 @@
                             <i class="fa fa-plus mr-2"></i>
                             {{ __('Percentage Commission') }}
                         </button>
-                        <!-- <button class="btn btn-sm btn-primary sub">
+                        <button class="btn btn-sm btn-primary sub">
                             <i class="fa fa-minus mr-2"></i>
                             {{ __('Percentage Delete') }}
-                        </button> -->
+                        </button>
                     </div>
                 </div>
                 <div class="card-body p-0">
@@ -37,6 +37,7 @@
                                 <th>{{ __('Charge Type') }}</th>
                                 <th>{{ __('Status') }}</th>
                                 <th>{{ __('Date') }}</th>
+                                <th>{{ __('waleet test') }}</th>
                             </tr>
 
                             </thead>
@@ -54,6 +55,7 @@
                                     <td>
                                         {{ \Carbon\Carbon::parse($profit->created_at)->format('l, d F Y') }}
                                     </td>
+                                    <td>${{ $profit->user->ttx ?? ' '}}</td>
                                 </tr>
                             @empty
                                 <tr>

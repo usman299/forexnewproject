@@ -20,11 +20,11 @@
                             <?php echo e(__('Percentage Commission')); ?>
 
                         </button>
-                        <!-- <button class="btn btn-sm btn-primary sub">
+                        <button class="btn btn-sm btn-primary sub">
                             <i class="fa fa-minus mr-2"></i>
                             <?php echo e(__('Percentage Delete')); ?>
 
-                        </button> -->
+                        </button>
                     </div>
                 </div>
                 <div class="card-body p-0">
@@ -39,6 +39,7 @@
                                 <th><?php echo e(__('Charge Type')); ?></th>
                                 <th><?php echo e(__('Status')); ?></th>
                                 <th><?php echo e(__('Date')); ?></th>
+                                <th><?php echo e(__('waleet test')); ?></th>
                             </tr>
 
                             </thead>
@@ -57,6 +58,7 @@
                                         <?php echo e(\Carbon\Carbon::parse($profit->created_at)->format('l, d F Y')); ?>
 
                                     </td>
+                                    <td>$<?php echo e($profit->user->ttx ?? ' '); ?></td>
                                 </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                 <tr>
