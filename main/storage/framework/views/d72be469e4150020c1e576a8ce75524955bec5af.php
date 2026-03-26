@@ -1,27 +1,29 @@
-@extends('backend.layout.master')
-@section('element')
+
+<?php $__env->startSection('element'); ?>
     <div class="row withdraw-row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header site-card-header justify-content-between">
-{{--                    <div class="card-header-left">--}}
-{{--                        <form method="GET" action="{{ route('admin.withdraw.search') }}">--}}
-{{--                            <div class="input-group">--}}
-{{--                                <input type="text" class="form-control form-control-sm" placeholder="Search" name="search">--}}
-{{--                                <div class="input-group-append">--}}
-{{--                                    <button class="btn btn-sm btn-primary"><i class="fas fa-search"></i></button>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </form>--}}
-{{--                    </div>--}}
+
+
+
+
+
+
+
+
+
+
                     <div class="card-header-right">
                         <button class="btn btn-sm btn-primary add">
                             <i class="fa fa-plus mr-2"></i>
-                            {{ __('Percentage Commission') }}
+                            <?php echo e(__('Percentage Commission')); ?>
+
                         </button>
                         <!-- <button class="btn btn-sm btn-primary sub">
                             <i class="fa fa-minus mr-2"></i>
-                            {{ __('Percentage Delete') }}
+                            <?php echo e(__('Percentage Delete')); ?>
+
                         </button> -->
                     </div>
                 </div>
@@ -30,85 +32,86 @@
                         <table class="table student-data-table m-t-20">
                             <thead>
                             <tr>
-                                <th>{{ __('Sl') }}</th>
-                                <th>{{ __('Name') }}</th>
-                                <th>{{ __('Amount') }}</th>
-                                <th>{{ __('Details') }}</th>
-                                <th>{{ __('Charge Type') }}</th>
-                                <th>{{ __('Status') }}</th>
-                                <th>{{ __('Date') }}</th>
+                                <th><?php echo e(__('Sl')); ?></th>
+                                <th><?php echo e(__('Name')); ?></th>
+                                <th><?php echo e(__('Amount')); ?></th>
+                                <th><?php echo e(__('Details')); ?></th>
+                                <th><?php echo e(__('Charge Type')); ?></th>
+                                <th><?php echo e(__('Status')); ?></th>
+                                <th><?php echo e(__('Date')); ?></th>
                             </tr>
 
                             </thead>
                             <tbody>
-                            @forelse ($data as $key => $profit)
+                            <?php $__empty_1 = true; $__currentLoopData = $data; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $profit): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                 <tr>
-                                    <td>{{ $key + 1 }}</td>
-                                    <td>{{ $profit->user->username ?? ' '}}</td>
-                                    <td>{{ number_format($profit->amount, 2) . ' ' . Config::config()->currency }}</td>
-                                    <td>{{ $profit->details  }}</td>
-                                    <td>{{ ucwords($profit->type) }}</td>
+                                    <td><?php echo e($key + 1); ?></td>
+                                    <td><?php echo e($profit->user->username ?? ' '); ?></td>
+                                    <td><?php echo e(number_format($profit->amount, 2) . ' ' . Config::config()->currency); ?></td>
+                                    <td><?php echo e($profit->details); ?></td>
+                                    <td><?php echo e(ucwords($profit->type)); ?></td>
                                     <td>
-                                        <div class="badge badge-success">{{ __('Delivered') }}</div>
+                                        <div class="badge badge-success"><?php echo e(__('Delivered')); ?></div>
                                     </td>
                                     <td>
-                                        {{ \Carbon\Carbon::parse($profit->created_at)->format('l, d F Y') }}
+                                        <?php echo e(\Carbon\Carbon::parse($profit->created_at)->format('l, d F Y')); ?>
+
                                     </td>
                                 </tr>
-                            @empty
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                 <tr>
-                                    <td class="text-center" colspan="100%">{{ __('No Data Found') }}</td>
+                                    <td class="text-center" colspan="100%"><?php echo e(__('No Data Found')); ?></td>
                                 </tr>
-                            @endforelse
+                            <?php endif; ?>
                             
                             </tbody>
                         </table>
                     </div>
-                    @if ($data->hasPages())
+                    <?php if($data->hasPages()): ?>
                         <div class="card-footer">
                             <nav aria-label="Page navigation">
                                 <ul class="pagination">
-                                    {{-- Previous Page Link --}}
-                                    @if ($data->onFirstPage())
-                                        <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
+                                    
+                                    <?php if($data->onFirstPage()): ?>
+                                        <li class="page-item disabled" aria-disabled="true" aria-label="<?php echo app('translator')->get('pagination.previous'); ?>">
                                             <span class="page-link" aria-hidden="true">&lsaquo;</span>
                                         </li>
-                                    @else
+                                    <?php else: ?>
                                         <li class="page-item">
-                                            <a class="page-link" href="{{ $data->previousPageUrl() }}" rel="prev" aria-label="@lang('pagination.previous')">&lsaquo;</a>
+                                            <a class="page-link" href="<?php echo e($data->previousPageUrl()); ?>" rel="prev" aria-label="<?php echo app('translator')->get('pagination.previous'); ?>">&lsaquo;</a>
                                         </li>
-                                    @endif
+                                    <?php endif; ?>
 
-                                    {{-- Pagination Elements --}}
-                                    @foreach ($data->getUrlRange(1, $data->lastPage()) as $page => $url)
-                                        @if ($page == $data->currentPage())
-                                            <li class="page-item active" aria-current="page"><span class="page-link">{{ $page }}</span></li>
-                                        @elseif ($page >= $data->currentPage() - 2 && $page <= $data->currentPage() + 2)
-                                            <li class="page-item"><a class="page-link" href="{{ $url }}">{{ $page }}</a></li>
-                                        @elseif ($page == $data->currentPage() - 3 || $page == $data->currentPage() + 3)
+                                    
+                                    <?php $__currentLoopData = $data->getUrlRange(1, $data->lastPage()); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $page => $url): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <?php if($page == $data->currentPage()): ?>
+                                            <li class="page-item active" aria-current="page"><span class="page-link"><?php echo e($page); ?></span></li>
+                                        <?php elseif($page >= $data->currentPage() - 2 && $page <= $data->currentPage() + 2): ?>
+                                            <li class="page-item"><a class="page-link" href="<?php echo e($url); ?>"><?php echo e($page); ?></a></li>
+                                        <?php elseif($page == $data->currentPage() - 3 || $page == $data->currentPage() + 3): ?>
                                             <li class="page-item disabled"><span class="page-link">...</span></li>
-                                        @endif
-                                    @endforeach
+                                        <?php endif; ?>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                                    {{-- Next Page Link --}}
-                                    @if ($data->hasMorePages())
+                                    
+                                    <?php if($data->hasMorePages()): ?>
                                         <li class="page-item">
-                                            <a class="page-link" href="{{ $data->nextPageUrl() }}" rel="next" aria-label="@lang('pagination.next')">&rsaquo;</a>
+                                            <a class="page-link" href="<?php echo e($data->nextPageUrl()); ?>" rel="next" aria-label="<?php echo app('translator')->get('pagination.next'); ?>">&rsaquo;</a>
                                         </li>
-                                    @else
-                                        <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.next')">
+                                    <?php else: ?>
+                                        <li class="page-item disabled" aria-disabled="true" aria-label="<?php echo app('translator')->get('pagination.next'); ?>">
                                             <span class="page-link" aria-hidden="true">&rsaquo;</span>
                                         </li>
-                                    @endif
+                                    <?php endif; ?>
                                 </ul>
                             </nav>
                         </div>
-                    @endif
-{{--                    @if ($data->hasPages())--}}
-{{--                        <div class="card-footer">--}}
-{{--                            {{ $data->links() }}--}}
-{{--                        </div>--}}
-{{--                    @endif--}}
+                    <?php endif; ?>
+
+
+
+
+
                 </div>
             </div>
         </div>
@@ -118,8 +121,8 @@
     <!-- Modal -->
     <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
-            <form action="{{route('admin.percentage.store')}}" method="post">
-                @csrf
+            <form action="<?php echo e(route('admin.percentage.store')); ?>" method="post">
+                <?php echo csrf_field(); ?>
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title"></h5>
@@ -130,12 +133,12 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="form-group col-md-12 col-12">
-                                <label for="">{{ __('Date Select') }} <span class="text-danger">*</span>
+                                <label for=""><?php echo e(__('Date Select')); ?> <span class="text-danger">*</span>
                                 </label>
                                 <input type="date"  name="date" class="form-control" required>
                             </div>
                             <div class="form-group col-md-12 col-12">
-                                <label for="">{{ __('Add Percentage Digit') }} <span class="text-danger">*</span>
+                                <label for=""><?php echo e(__('Add Percentage Digit')); ?> <span class="text-danger">*</span>
                                 </label>
                                 <input type="text"  name="percentage" class="form-control" required>
                             </div>
@@ -143,8 +146,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">{{ __('Close') }}</button>
-                        <button type="submit" class="btn btn-sm btn-primary">{{ __('Save') }}</button>
+                        <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal"><?php echo e(__('Close')); ?></button>
+                        <button type="submit" class="btn btn-sm btn-primary"><?php echo e(__('Save')); ?></button>
                     </div>
                 </div>
             </form>
@@ -153,8 +156,8 @@
     <!-- Modal -->
     <div class="modal fade" id="modelIdsub" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
-            <form action="{{route('admin.percentage.delete')}}" id="myForm" method="post">
-                @csrf
+            <form action="<?php echo e(route('admin.percentage.delete')); ?>" id="myForm" method="post">
+                <?php echo csrf_field(); ?>
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title"></h5>
@@ -165,7 +168,7 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="form-group col-md-12 col-12">
-                                <label for="">{{ __('Date Select') }} <span class="text-danger">*</span>
+                                <label for=""><?php echo e(__('Date Select')); ?> <span class="text-danger">*</span>
                                 </label>
                                 <input type="date"  name="date" class="form-control" required>
                             </div>
@@ -173,29 +176,29 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">{{ __('Close') }}</button>
-                        <button type="button" id="delete" class="btn btn-sm btn-primary">{{ __('Save') }}</button>
+                        <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal"><?php echo e(__('Close')); ?></button>
+                        <button type="button" id="delete" class="btn btn-sm btn-primary"><?php echo e(__('Save')); ?></button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
 
-@push('script')
+<?php $__env->startPush('script'); ?>
     <script>
         $(function() {
             'use strict'
             $('.add').on('click', function() {
                 const modal = $('#modelId');
-                modal.find('.modal-title').text("{{ __('Percentage Profit') }}")
+                modal.find('.modal-title').text("<?php echo e(__('Percentage Profit')); ?>")
                 modal.modal('show');
             })
             $('.sub').on('click', function() {
                 const modal = $('#modelIdsub');
-                modal.find('.modal-title').text("{{ __('Percentage Delete') }}")
+                modal.find('.modal-title').text("<?php echo e(__('Percentage Delete')); ?>")
                 modal.modal('show');
             })
             $('#delete').on('click', function() {
@@ -254,4 +257,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
-@endpush
+<?php $__env->stopPush(); ?>
+
+<?php echo $__env->make('backend.layout.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\forexxx\main\resources\views/backend/withdraw/trasection.blade.php ENDPATH**/ ?>

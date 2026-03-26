@@ -533,7 +533,7 @@ class DepositController extends Controller
             $validatedData = $request->validate([
                 'otp' => 'required', // Example validation rule
             ]);
-
+// dd($request->all());
             if ($request->otp == $request->otp1) {
 
                 $charge = $request->amount1 * 0.05;

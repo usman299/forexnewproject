@@ -1,32 +1,32 @@
-@extends(Config::theme(). 'layout.auth')
+
 <style>
     .own{
         display: none;
     }
 </style>
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="sp_site_card">
                 <div class="card-header d-flex flex-wrap justify-content-between align-items-center">
-                    <h4 class="mb-0">{{ __('Withdraw Money') }}</h4>
-                    <p class="mb-0">{{ __('Available Balance') }} :
-                        <span class="text-white">{{ Config::formatter(auth()->user()->ttx - auth()->user()->tttx)}}</span></p>
+                    <h4 class="mb-0"><?php echo e(__('Withdraw Money')); ?></h4>
+                    <p class="mb-0"><?php echo e(__('Available Balance')); ?> :
+                        <span class="text-white"><?php echo e(Config::formatter(auth()->user()->ttx - auth()->user()->tttx)); ?></span></p>
                 </div>
                 <div class="card-body">
-                    <form action="{{route('user.withdraw.store')}}" method="post" enctype="multipart/form-data">
-                        @csrf
+                    <form action="<?php echo e(route('user.withdraw.store')); ?>" method="post" enctype="multipart/form-data">
+                        <?php echo csrf_field(); ?>
                         <div class="col-md-12 mb-3">
-                            <label>{{ __('Withdraw Charge') }}</label>
+                            <label><?php echo e(__('Withdraw Charge')); ?></label>
                             <div class="input-group">
                                 <input type="number" name="amount1" min="10" id="amount" class="form-control charge" value="0" required >
                                 <div class="input-group-text sp_bg_main text-white border-0">
-                                    <p class="text-small color-change mb-0 mt-1"><span>{{ __('Min Amount ') }} 10 USD </span></p>
+                                    <p class="text-small color-change mb-0 mt-1"><span><?php echo e(__('Min Amount ')); ?> 10 USD </span></p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-12 mb-3">
-                            <label>{{ __('Send To') }}</label>
+                            <label><?php echo e(__('Send To')); ?></label>
                             <div class="sp_site_radio">
                                 <input type="radio" class="form-check-input currency" id="internal" name="userType" value="1" checked>
                                 <label class="form-check-label" for="internal">
@@ -42,32 +42,32 @@
 
                         </div>
                         <div class="col-md-12 mb-3 withdraw">
-                            <label for="">{{ __('Receivable Amount') }} <span class="sp_text_danger">*</span></label>
+                            <label for=""><?php echo e(__('Receivable Amount')); ?> <span class="sp_text_danger">*</span></label>
                             <input type="text" name="amount2"  id="result" class="form-control final_amo"  readonly>
                         </div>
                         <div class="col-md-12 mb-3 withdraw">
-                            <label for="">{{ __('Wallet Address (Bep20)') }} <span class="sp_text_danger">*</span></label>
+                            <label for=""><?php echo e(__('Wallet Address (Bep20)')); ?> <span class="sp_text_danger">*</span></label>
                             <input type="text" name="address" id="address" class="form-control" required>
                             <p id="validation_address" style="color: red;font-size: 14px;"></p>
                         </div>
                         <div class="col-md-12 mb-3 withdraw">
-                            <label for="">{{ __('Additional Note') }}</label>
+                            <label for=""><?php echo e(__('Additional Note')); ?></label>
                             <textarea class="form-control" name="note" row="5"></textarea>
                         </div>
                         <div class="col-md-12 mb-3 own" >
-                            <label>{{ __('Unique ID') }}</label>
+                            <label><?php echo e(__('Unique ID')); ?></label>
                             <div class="input-group">
                                 <input type="number" name="userid" id="userid"   class="form-control charge"   >
                             </div>
                         </div>
                         <div class="col-md-12 mb-3 own">
-                            <label for="">{{ __('User Name') }} <span class="sp_text_danger">*</span></label>
+                            <label for=""><?php echo e(__('User Name')); ?> <span class="sp_text_danger">*</span></label>
                             <input type="text" name="name"  id="name" class="form-control final_amo"  readonly>
 
                         </div>
 
                         <div class="col-md-12 mt-2">
-                            <button class="btn sp_theme_btn w-100"  id="submitBtn" type="submit" disabled>{{ __('Withdraw Now') }}</button>
+                            <button class="btn sp_theme_btn w-100"  id="submitBtn" type="submit" disabled><?php echo e(__('Withdraw Now')); ?></button>
 
                         </div>
 
@@ -100,8 +100,8 @@
                 } else if (userType == 2) {
                     $('.own').show();
                     $('.withdraw').hide();
-                    var unique_id = @json($user->username);
-                    var username = @json($user->username2);
+                    var unique_id = <?php echo json_encode($user->username, 15, 512) ?>;
+                    var username = <?php echo json_encode($user->username2, 15, 512) ?>;
                     $('#userid').val(unique_id).prop('disabled', true);
                     $('#name').val(username).prop('disabled', true);
                     $('#address').val(2);
@@ -150,7 +150,7 @@
     <script>
 document.addEventListener('DOMContentLoaded', function () {
 
-    const form = document.querySelector('form[action="{{ route('user.withdraw.store') }}"]');
+    const form = document.querySelector('form[action="<?php echo e(route('user.withdraw.store')); ?>"]');
     const submitBtn = document.getElementById('submitBtn');
 
     if (form) {
@@ -173,4 +173,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make(Config::theme(). 'layout.auth', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\forexxx\main\resources\views/frontend/default/user/withdraw/create.blade.php ENDPATH**/ ?>
