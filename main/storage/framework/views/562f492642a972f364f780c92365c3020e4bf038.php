@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('content'); ?>
     <div class="row justify-content-center">
         <div class="col-md-6">
@@ -82,9 +81,11 @@ unset($__errorArgs, $__bag); ?>
                 <?php endif; ?>
             });
 
+            
 
+</script>
+        
 
-        </script>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make(Config::theme(). 'layout.auth', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/tradwiwy/public_html/main/resources/views/frontend/default/user/withdraw/verify.blade.php ENDPATH**/ ?>

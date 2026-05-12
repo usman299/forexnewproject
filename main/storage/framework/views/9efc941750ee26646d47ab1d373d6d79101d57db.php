@@ -1,4 +1,3 @@
-
 <style>
     .own{
         display: none;
@@ -147,6 +146,32 @@
             });
         });
     </script>
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const form = document.querySelector('form[action="<?php echo e(route('user.withdraw.store')); ?>"]');
+    const submitBtn = document.getElementById('submitBtn');
+
+    if (form) {
+        form.addEventListener('submit', function () {
+
+            // Agar already disabled hai to dobara submit na kare
+            if (submitBtn.disabled) {
+                return false;
+            }
+
+            // Disable button
+            submitBtn.disabled = true;
+
+            // Change text
+            submitBtn.innerHTML = 'Processing...';
+
+        });
+    }
+
+});
+</script>
+
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make(Config::theme(). 'layout.auth', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/tradwiwy/public_html/main/resources/views/frontend/default/user/withdraw/create.blade.php ENDPATH**/ ?>

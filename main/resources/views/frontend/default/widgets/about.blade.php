@@ -21,6 +21,7 @@
                     @if ($content)
 
                         @foreach (optional($content)->repeater as $repeater)
+                       
 {{--                            <li>{{ Config::trans($repeater->repeater)}}</li>--}}
                             <li>{{ $repeater->repeater}}</li>
                         @endforeach

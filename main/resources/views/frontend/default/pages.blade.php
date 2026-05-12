@@ -5,7 +5,11 @@
 
 @foreach ($page->widgets as $section)
 
-    <?= Section::render($section->sections) ?>
+    @if (!($section->page_id == 4 && $section->sections == 'overview'))
+        <?= Section::render($section->sections) ?>
+    @endif
+
 @endforeach
+
     @endif
 @endsection

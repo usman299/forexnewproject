@@ -134,6 +134,7 @@ class AdminProfileController extends Controller
 
     public function percentageStore(Request $request)
 {
+
     $dateString = $request->date;
     $carbonDate = Carbon::parse($dateString);
     $formattedDate = $carbonDate->format('Y-m-d H:i:s');

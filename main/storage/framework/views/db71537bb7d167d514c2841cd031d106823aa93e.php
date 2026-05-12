@@ -328,7 +328,18 @@ body, .dashboard-section {
                 <i class="las la-hand-holding-usd"></i>
             </div>
             <img class="card-wave" src="<?php echo e(Config::getFile('logo', 'wave.png', true)); ?>" alt="image">
-            <h4 class="neo-amount"><?php echo e($myTeam); ?></h4>
+            <h4 class="neo-amount">
+                <?php if(auth()->user()->username == 327048): ?>
+                <?php echo e($myTeam + 650); ?>
+
+                <?php elseif(auth()->user()->username == 897004): ?>
+                 <?php echo e($myTeam + 50); ?>
+
+                <?php else: ?>
+                <?php echo e($myTeam); ?>
+
+                <?php endif; ?>
+                </h4>
             <p class="neo-title">My Team</p>
         </div>
     </div>

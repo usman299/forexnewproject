@@ -5,8 +5,12 @@
 
 <?php $__currentLoopData = $page->widgets; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $section): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
-    <?= Section::render($section->sections) ?>
+    <?php if(!($section->page_id == 4 && $section->sections == 'overview')): ?>
+        <?= Section::render($section->sections) ?>
+    <?php endif; ?>
+
 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
     <?php endif; ?>
 <?php $__env->stopSection(); ?>
 

@@ -21,6 +21,7 @@
                     <?php if($content): ?>
 
                         <?php $__currentLoopData = optional($content)->repeater; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $repeater): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                       
 
                             <li><?php echo e($repeater->repeater); ?></li>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

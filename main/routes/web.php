@@ -53,6 +53,13 @@ Route::get('admin', function () {
     return redirect()->route('admin.login');
 });
 
+
+if (env('LANDING_ONLY')) {
+    Route::any('{any}', function () {
+        return redirect()->route('home');
+    })->where('any', '.*');
+}
+
 Route::name('user.')->group(function () {
 
     Route::middleware('guest')->group(function () {
@@ -255,5 +262,8 @@ Route::get('links/{id}/{slug}', [FrontendController::class, 'linksDetails'])->na
 Route::post('subscribe', [FrontendController::class, 'subscribe'])->name('subscribe');
 
 Route::post('contact', [FrontendController::class, 'contactSend'])->name('contact');
+
+
+
 //
 //Route::get('terms_condition', [FrontendController::class, 'terms_condition'])->name('terms_condition');
