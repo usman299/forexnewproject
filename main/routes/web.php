@@ -24,6 +24,8 @@ use App\Http\Controllers\WithdrawController;
 use App\Models\Referral;
 use Illuminate\Support\Facades\Route;
 
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -64,6 +66,7 @@ Route::name('user.')->group(function () {
 
     Route::middleware('guest')->group(function () {
         Route::get('register/{reffer?}', [RegistrationController::class, 'index'])->name('register')->middleware('reg_off');
+        
         Route::post('register/{reffer?}', [RegistrationController::class, 'register'])->middleware('reg_off');
 
         Route::get('login', [LoginController::class, 'index'])->name('login');
